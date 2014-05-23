@@ -6,6 +6,7 @@ namespace TagLib
     {
         public StreamFileAbstraction(string name, Stream readStream, Stream writeStream)
         {
+            // TODO: Fix deadlock when setting an actual writable Stream
             WriteStream = readStream;
             ReadStream = readStream;
             Name = name;
@@ -13,11 +14,11 @@ namespace TagLib
 
         public string Name { get; private set; }
 
-        public System.IO.Stream ReadStream { get; private set; }
+        public Stream ReadStream { get; private set; }
 
-        public System.IO.Stream WriteStream { get; private set; }
+        public Stream WriteStream { get; private set; }
 
-        public void CloseStream(System.IO.Stream stream)
+        public void CloseStream(Stream stream)
         {
 #if PORTABLE
             stream.Flush();
