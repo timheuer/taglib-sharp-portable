@@ -28,6 +28,7 @@
 // USA
 //
 
+using PCLStorage;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -102,8 +103,6 @@ namespace TagLib {
 		
 		#endregion
 		
-		
-		
 		#region Delegates
 		
 		/// <summary>
@@ -150,8 +149,6 @@ namespace TagLib {
 		                                       ReadStyle style);
 		
 		#endregion
-		
-		
 		
 		#region Private Properties
 		
@@ -206,12 +203,10 @@ namespace TagLib {
 		private List<string> corruption_reasons = null;
 
 		#endregion
-		
-		
-		
-		#region Public Static Properties
-		
-		/// <summary>
+
+        #region Public Static Properties
+
+        /// <summary>
 		///    The buffer size to use when reading large blocks of data
 		///    in the <see cref="File" /> class.
 		/// </summary>
@@ -225,29 +220,7 @@ namespace TagLib {
 		
 		#endregion
 		
-		
 		#region Constructors
-		
-		/// <summary>
-		///    Constructs and initializes a new instance of <see
-		///    cref="File" /> for a specified path in the local file
-		///    system.
-		/// </summary>
-		/// <param name="path">
-		///    A <see cref="string" /> object containing the path of the
-		///    file to use in the new instance.
-		/// </param>
-		/// <exception cref="ArgumentNullException">
-		///    <paramref name="path" /> is <see langword="null" />.
-		/// </exception>
-		protected File (string path)
-		{
-			if (path == null)
-				throw new ArgumentNullException ("path");
-			
-			file_abstraction = new LocalFileAbstraction (path);
-		}
-		
 		/// <summary>
 		///    Constructs and initializes a new instance of <see
 		///    cref="File" /> for a specified file abstraction.
@@ -269,8 +242,6 @@ namespace TagLib {
 		}
 		
 		#endregion
-		
-		
 		
 		#region Public Properties
 		
@@ -427,10 +398,14 @@ namespace TagLib {
 		///    /> which has no effect.
 		/// </remarks>
 		public AccessMode Mode {
-			get {return (file_stream == null) ?
-				AccessMode.Closed : (file_stream.CanWrite) ?
-					AccessMode.Write : AccessMode.Read;}
-			set {
+			get 
+            {
+                return (file_stream == null) ?
+                AccessMode.Closed : (file_stream.CanWrite) ?
+                    AccessMode.Write : AccessMode.Read;
+            }
+			set 
+            {
 				if (Mode == value || (Mode == AccessMode.Write
 					&& value == AccessMode.Read))
 					return;
@@ -483,8 +458,6 @@ namespace TagLib {
 		}
 
 		#endregion
-		
-		
 		
 		#region Public Methods
 
@@ -1192,36 +1165,7 @@ namespace TagLib {
 		
 		#endregion
 		
-		
-		
 		#region Public Static Methods
-		
-		/// <summary>
-		///    Creates a new instance of a <see cref="File" /> subclass
-		///    for a specified path, guessing the mime-type from the
-		///    file's extension and using the average read style.
-		/// </summary>
-		/// <param name="path">
-		///    A <see cref="string" /> object specifying the file to
-		///    read from and write to.
-		/// </param>
-		/// <returns>
-		///    A new instance of <see cref="File" /> as read from the
-		///    specified path.
-		/// </returns>
-		/// <exception cref="CorruptFileException">
-		///    The file could not be read due to corruption.
-		/// </exception>
-		/// <exception cref="UnsupportedFormatException">
-		///    The file could not be read because the mime-type could
-		///    not be resolved or the library does not support an
-		///    internal feature of the file crucial to its reading.
-		/// </exception>
-		public static File Create (string path)
-		{
-			return Create(path, null, ReadStyle.Average);
-		}
-		
 		/// <summary>
 		///    Creates a new instance of a <see cref="File" /> subclass
 		///    for a specified file abstraction, guessing the mime-type
@@ -1247,38 +1191,6 @@ namespace TagLib {
 		public static File Create (IFileAbstraction abstraction)
 		{
 			return Create(abstraction, null, ReadStyle.Average);
-		}
-		
-		/// <summary>
-		///    Creates a new instance of a <see cref="File" /> subclass
-		///    for a specified path and read style, guessing the
-		///    mime-type from the file's extension.
-		/// </summary>
-		/// <param name="path">
-		///    A <see cref="string" /> object specifying the file to
-		///    read from and write to.
-		/// </param>
-		/// <param name="propertiesStyle">
-		///    A <see cref="ReadStyle" /> value specifying the level of
-		///    detail to use when reading the media information from the
-		///    new instance.
-		/// </param>
-		/// <returns>
-		///    A new instance of <see cref="File" /> as read from the
-		///    specified path.
-		/// </returns>
-		/// <exception cref="CorruptFileException">
-		///    The file could not be read due to corruption.
-		/// </exception>
-		/// <exception cref="UnsupportedFormatException">
-		///    The file could not be read because the mime-type could
-		///    not be resolved or the library does not support an
-		///    internal feature of the file crucial to its reading.
-		/// </exception>
-		public static File Create (string path,
-		                           ReadStyle propertiesStyle)
-		{
-			return Create(path, null, propertiesStyle);
 		}
 		
 		/// <summary>
@@ -1311,44 +1223,6 @@ namespace TagLib {
 		                           ReadStyle propertiesStyle)
 		{
 			return Create(abstraction, null, propertiesStyle);
-		}
-		
-		/// <summary>
-		///    Creates a new instance of a <see cref="File" /> subclass
-		///    for a specified path, mime-type, and read style.
-		/// </summary>
-		/// <param name="path">
-		///    A <see cref="string" /> object specifying the file to
-		///    read from and write to.
-		/// </param>
-		/// <param name="mimetype">
-		///    A <see cref="string" /> object containing the mime-type
-		///    to use when selecting the appropriate class to use, or
-		///    <see langword="null" /> if the extension in <paramref
-		///    name="abstraction" /> is to be used.
-		/// </param>
-		/// <param name="propertiesStyle">
-		///    A <see cref="ReadStyle" /> value specifying the level of
-		///    detail to use when reading the media information from the
-		///    new instance.
-		/// </param>
-		/// <returns>
-		///    A new instance of <see cref="File" /> as read from the
-		///    specified path.
-		/// </returns>
-		/// <exception cref="CorruptFileException">
-		///    The file could not be read due to corruption.
-		/// </exception>
-		/// <exception cref="UnsupportedFormatException">
-		///    The file could not be read because the mime-type could
-		///    not be resolved or the library does not support an
-		///    internal feature of the file crucial to its reading.
-		/// </exception>
-		public static File Create (string path, string mimetype,
-		                           ReadStyle propertiesStyle)
-		{
-			return Create (new LocalFileAbstraction (path),
-				mimetype, propertiesStyle);
 		}
 		
 		/// <summary>
@@ -1451,8 +1325,6 @@ namespace TagLib {
 		
 		#endregion
 		
-		
-		
 		#region Protected Methods
 		
 		/// <summary>
@@ -1489,118 +1361,7 @@ namespace TagLib {
 #endif
 		}
 
-		#endregion
-		
-		
-		
-		#region Classes
-		
-		/// <summary>
-		///    This class implements <see cref="IFileAbstraction" />
-		///    to provide support for accessing the local/standard file
-		///    system.
-		/// </summary>
-		/// <remarks>
-		///    This class is used as the standard file abstraction
-		///    throughout the library.
-		/// </remarks>
-		public class LocalFileAbstraction : IFileAbstraction
-		{
-			/// <summary>
-			///    Contains the name used to open the file.
-			/// </summary>
-			private string name;
-			
-			/// <summary>
-			///    Constructs and initializes a new instance of
-			///    <see cref="LocalFileAbstraction" /> for a
-			///    specified path in the local file system.
-			/// </summary>
-			/// <param name="path">
-			///    A <see cref="string" /> object containing the
-			///    path of the file to use in the new instance.
-			/// </param>
-			/// <exception cref="ArgumentNullException">
-			///    <paramref name="path" /> is <see langword="null"
-			///    />.
-			/// </exception>
-			public LocalFileAbstraction (string path)
-			{
-				if (path == null)
-					throw new ArgumentNullException ("path");
-				
-				name = path;
-			}
-			
-			/// <summary>
-			///    Gets the path of the file represented by the
-			///    current instance.
-			/// </summary>
-			/// <value>
-			///    A <see cref="string" /> object containing the
-			///    path of the file represented by the current
-			///    instance.
-			/// </value>
-			public string Name {
-				get {return name;}
-			}
-			
-			/// <summary>
-			///    Gets a new readable, seekable stream from the
-			///    file represented by the current instance.
-			/// </summary>
-			/// <value>
-			///    A new <see cref="System.IO.Stream" /> to be used
-			///    when reading the file represented by the current
-			///    instance.
-			/// </value>
-			public System.IO.Stream ReadStream {
-                //get {return System.IO.File.Open (Name,
-                //    System.IO.FileMode.Open,
-                //    System.IO.FileAccess.Read,
-                //    System.IO.FileShare.Read);}
-			    get { return null; }
-			}
-
-			/// <summary>
-			///    Gets a new writable, seekable stream from the
-			///    file represented by the current instance.
-			/// </summary>
-			/// <value>
-			///    A new <see cref="System.IO.Stream" /> to be used
-			///    when writing to the file represented by the
-			///    current instance.
-			/// </value>
-			public System.IO.Stream WriteStream {
-                //get {return System.IO.File.Open (Name,
-                //    System.IO.FileMode.Open,
-                //    System.IO.FileAccess.ReadWrite);}
-                get { return null; }
-			}
-			
-			/// <summary>
-			///    Closes a stream created by the current instance.
-			/// </summary>
-			/// <param name="stream">
-			///    A <see cref="System.IO.Stream" /> object
-			///    created by the current instance.
-			/// </param>
-			public void CloseStream (System.IO.Stream stream)
-			{
-				if (stream == null)
-					throw new ArgumentNullException ("stream");
-
-#if !PORTABLE
-                stream.Close(); 
-#else
-			    stream.Flush();
-#endif
-			}
-		}
-		
-		#endregion
-		
-		
+		#endregion		
 		
 		#region Interfaces
 		

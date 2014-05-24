@@ -25,6 +25,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace TagLib.Audible
 {
@@ -152,7 +153,7 @@ namespace TagLib.Audible
 			}
 			catch (Exception e)
 			{
-				//
+				Debug.WriteLine(e.Message);
 			}
 			
 			if (data.Count != 0)

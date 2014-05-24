@@ -53,56 +53,14 @@ namespace TagLib.Ape {
 		
 		#endregion
 		
-		
-		
 		#region Constructors
-		
-		/// <summary>
-		///    Constructs and initializes a new instance of <see
-		///    cref="File" /> for a specified path in the local file
-		///    system and specified read style.
-		/// </summary>
-		/// <param name="path">
-		///    A <see cref="string" /> object containing the path of the
-		///    file to use in the new instance.
-		/// </param>
-		/// <param name="propertiesStyle">
-		///    A <see cref="ReadStyle" /> value specifying at what level
-		///    of accuracy to read the media properties, or <see
-		///    cref="ReadStyle.None" /> to ignore the properties.
-		/// </param>
-		/// <exception cref="ArgumentNullException">
-		///    <paramref name="path" /> is <see langword="null" />.
-		/// </exception>
-		public File (string path, ReadStyle propertiesStyle)
-			: base (path, propertiesStyle)
-		{
-		}
-		
-		/// <summary>
-		///    Constructs and initializes a new instance of <see
-		///    cref="File" /> for a specified path in the local file
-		///    system with an average read style.
-		/// </summary>
-		/// <param name="path">
-		///    A <see cref="string" /> object containing the path of the
-		///    file to use in the new instance.
-		/// </param>
-		/// <exception cref="ArgumentNullException">
-		///    <paramref name="path" /> is <see langword="null" />.
-		/// </exception>
-		public File (string path)
-			: base (path)
-		{
-		}
-		
 		/// <summary>
 		///    Constructs and initializes a new instance of <see
 		///    cref="File" /> for a specified file abstraction and
 		///    specified read style.
 		/// </summary>
 		/// <param name="abstraction">
-		///    A <see cref="IFileAbstraction" /> object to use when
+		///    A <see cref="File.IFileAbstraction" /> object to use when
 		///    reading from and writing to the file.
 		/// </param>
 		/// <param name="propertiesStyle">

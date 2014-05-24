@@ -50,8 +50,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Collections\ByteVectorTest.cs" />
     <Compile Include="FileFormats\IFormatTest.cs" />
     <Compile Include="FileFormats\Id3V2FormatTest.cs" />
+    <Compile Include="FileFormats\AsfFormatTest.cs" />
+    <Compile Include="FileFormats\StandardTests.cs" />
+    <Compile Include="FileFormats\JpegFormatTest.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="LocalFileAbstraction.cs" />
+    <Compile Include="Performance\FileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

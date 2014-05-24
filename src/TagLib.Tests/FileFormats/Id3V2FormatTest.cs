@@ -15,9 +15,11 @@ namespace TagLib.Tests.FileFormats
         public void Init()
         {
             //_file = File.Create(SAMPLE_FILE);
-            var streamRead = System.IO.File.OpenRead(SAMPLE_FILE);
-            //var _stream_write = System.IO.File.OpenWrite(SAMPLE_FILE);
-            _file = File.Create(new StreamFileAbstraction(SAMPLE_FILE, streamRead, streamRead));
+            //var streamRead = System.IO.File.OpenRead(SAMPLE_FILE);
+            ////var _stream_write = System.IO.File.OpenWrite(SAMPLE_FILE);
+            //_file = File.Create(new StreamFileAbstraction(SAMPLE_FILE, streamRead, streamRead));
+
+            _file = File.Create(new LocalFileAbstraction(SAMPLE_FILE));
         }
 
         [TestMethod]
@@ -31,7 +33,7 @@ namespace TagLib.Tests.FileFormats
         public void TestExtendedHeaderSize()
         {
             // bgo#604488
-            var file = File.Create(EXT_HEADER_FILE);
+            var file = File.Create(new LocalFileAbstraction(EXT_HEADER_FILE));
             Assert.AreEqual("Title v2", file.Tag.Title);
         }
 
@@ -44,7 +46,7 @@ namespace TagLib.Tests.FileFormats
             }
 
             System.IO.File.Copy(CORRUPT_FILE, TMP_FILE);
-            File tmp = File.Create(TMP_FILE);
+            File tmp = File.Create(new LocalFileAbstraction(TMP_FILE));
 
             Assert.AreEqual("T", tmp.Tag.Title);
         }

@@ -20,11 +20,7 @@ namespace TagLib
 
         public void CloseStream(Stream stream)
         {
-#if PORTABLE
             stream.Flush();
-#else
-            stream.Close();
-#endif
         }
     }
 }

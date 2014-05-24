@@ -261,24 +261,16 @@ namespace TagLib.Xmp
 			// an XmlException. See also XmpNullValuesTest.cs.
 			if (data[data.Length-1] == '\0')
 				data = data.Substring(0, data.Length-1);
-			
-			//XmlDocument doc = new XmlDocument (NameTable);
-            //doc.LoadXml(data);
-            //XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
-            //nsmgr.AddNamespace("x", ADOBE_X_NS);
-            //nsmgr.AddNamespace("rdf", RDF_NS);
             
             XNamespace adobeNs = XNamespace.Get(ADOBE_X_NS);
             XNamespace rdfNs = XNamespace.Get(RDF_NS);
 
             XDocument doc = XDocument.Load(data);
             
-            //XmlNode node = doc.SelectSingleNode("/x:xmpmeta/rdf:RDF", nsmgr);
 		    XElement node = doc.Element(XName.Get("xmpmeta", adobeNs.NamespaceName)).Element(XName.Get("RDF", rdfNs.NamespaceName));
             // Old versions of XMP were called XAP, fall back to this case (tested in sample_xap.jpg)
             node = node ?? doc.Element(XName.Get("xapmeta", adobeNs.NamespaceName)).Element(XName.Get("RDF", rdfNs.NamespaceName));
 
-			//node = node ?? doc.SelectSingleNode("/x:xapmeta/rdf:RDF", nsmgr);
 			if (node == null)
 				throw new CorruptFileException ();
 

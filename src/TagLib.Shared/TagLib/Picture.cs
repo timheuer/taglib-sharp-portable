@@ -239,28 +239,6 @@ namespace TagLib {
 		/// <summary>
 		///    Constructs and initializes a new instance of <see
 		///    cref="Picture" /> by reading in the contents of a
-		///    specified file.
-		/// </summary>
-		/// <param name="path">
-		///    A <see cref="string"/> object containing the path of the
-		///    file to read.
-		/// </param>
-		/// <exception cref="ArgumentNullException">
-		///    <paramref name="path" /> is <see langword="null" />.
-		/// </exception>
-		public Picture (string path)
-		{
-			if (path == null)
-				throw new ArgumentNullException ("path");
-			
-			Data = ByteVector.FromPath (path);
-			FillInMimeFromData ();
-			Description = path;
-		}
-		
-		/// <summary>
-		///    Constructs and initializes a new instance of <see
-		///    cref="Picture" /> by reading in the contents of a
 		///    specified file abstraction.
 		/// </summary>
 		/// <param name="abstraction">

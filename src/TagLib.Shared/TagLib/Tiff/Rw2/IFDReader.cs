@@ -126,11 +126,7 @@ namespace TagLib.Tiff.Rw2
 
 		public void CloseStream (System.IO.Stream stream)
 		{
-#if PORTABLE
 		    stream.Flush();
-#else
-            stream.Close ();
-#endif
 		}
 
 		public System.IO.Stream ReadStream  {

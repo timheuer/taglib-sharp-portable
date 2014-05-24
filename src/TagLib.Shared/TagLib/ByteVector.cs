@@ -2055,62 +2055,6 @@ namespace TagLib {
 		
 		/// <summary>
 		///    Creates a new instance of <see cref="ByteVector" /> by
-		///    reading in the contents of a specified file.
-		/// </summary>
-		/// <param name="path">
-		///    A <see cref="string"/> object containing the path of the
-		///    file to read.
-		/// </param>
-		/// <returns>
-		///    A <see cref="ByteVector"/> object containing the contents
-		///    of the specified file.
-		/// </returns>
-		/// <exception cref="ArgumentNullException">
-		///    <paramref name="path" /> is <see langword="null" />.
-		/// </exception>
-		public static ByteVector FromPath (string path)
-		{
-			byte [] tmp_out;
-			return FromPath (path, out tmp_out, false);
-		}
-		
-		/// <summary>
-		///    Creates a new instance of <see cref="ByteVector" /> by
-		///    reading in the contents of a specified file.
-		/// </summary>
-		/// <param name="path">
-		///    A <see cref="string"/> object containing the path of the
-		///    file to read.
-		/// </param>
-		/// <param name="firstChunk">
-		///    A <see cref="byte[]"/> reference to be filled with the
-		///    first data chunk from the read file.
-		/// </param>
-		/// <param name="copyFirstChunk">
-		///    A <see cref="bool"/> value specifying whether or not to
-		///    copy the first chunk of the file into <paramref
-		///    name="firstChunk" />.
-		/// </param>
-		/// <returns>
-		///    A <see cref="ByteVector"/> object containing the contents
-		///    of the specified file.
-		/// </returns>
-		/// <exception cref="ArgumentNullException">
-		///    <paramref name="path" /> is <see langword="null" />.
-		/// </exception>
-		internal static ByteVector FromPath (string path,
-		                                     out byte [] firstChunk,
-		                                     bool copyFirstChunk)
-		{
-			if (path == null)
-				throw new ArgumentNullException ("path");
-			
-			return FromFile (new File.LocalFileAbstraction (path),
-				out firstChunk, copyFirstChunk);
-		}
-		
-		/// <summary>
-		///    Creates a new instance of <see cref="ByteVector" /> by
 		///    reading in the contents of a specified file abstraction.
 		/// </summary>
 		/// <param name="abstraction">
