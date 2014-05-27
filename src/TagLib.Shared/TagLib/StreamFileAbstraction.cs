@@ -20,7 +20,7 @@ namespace TagLib
 
         public void CloseStream(Stream stream)
         {
-            stream.Flush();
+            stream.Dispose();
         }
     }
 }

@@ -126,7 +126,7 @@ namespace TagLib.Tiff.Rw2
 
 		public void CloseStream (System.IO.Stream stream)
 		{
-		    stream.Flush();
+		    stream.Dispose();
 		}
 
 		public System.IO.Stream ReadStream  {
