@@ -35,7 +35,7 @@ namespace TagLib.Id3v2
 	///    ID3v2 extended header is implemented.
 	/// </summary>
 	public class ExtendedHeader 
-#if !PORTABLE
+#if !PORTABLE && !SILVERLIGHT
         : ICloneable
 #endif
 	{
@@ -115,7 +115,7 @@ namespace TagLib.Id3v2
 			return header;
 		}
 
-#if !PORTABLE
+#if !PORTABLE && !SILVERLIGHT
         object ICloneable.Clone()
         {
             return Clone();

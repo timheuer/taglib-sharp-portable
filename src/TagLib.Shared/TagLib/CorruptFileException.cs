@@ -97,7 +97,7 @@ namespace TagLib {
 	/// 	Console.WriteLine ("That file is corrupt: {0}", e.ToString ());
 	///    </code>
 	/// </example>
-#if !PORTABLE
+#if !PORTABLE && !SILVERLIGHT
     [Serializable] 
 #endif
 	public class CorruptFileException : Exception
@@ -143,7 +143,7 @@ namespace TagLib {
 		{
 		}
 
-#if !PORTABLE
+#if !PORTABLE && !SILVERLIGHT
         /// <summary>
         ///    Constructs and initializes a new instance of <see
         ///    cref="CorruptFileException" /> from a specified

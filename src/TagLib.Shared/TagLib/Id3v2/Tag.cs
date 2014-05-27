@@ -40,7 +40,7 @@ namespace TagLib.Id3v2 {
 	///    writing ID3v2 tags.
 	/// </summary>
 	public class Tag : TagLib.Tag, IEnumerable<Frame>
-#if !PORTABLE
+#if !PORTABLE && !SILVERLIGHT
         , ICloneable
 #endif
 	{
@@ -1013,32 +1013,35 @@ namespace TagLib.Id3v2 {
 				this, ident, false);
 			return frame == null ? new string [0] : frame.Text;
 		}
-		
-		/// <summary>
-		///    Gets an integer value from a "/" delimited list in a
-		///    specified Text Information Frame.
-		/// </summary>
-		/// <param name="ident">
-		///    A <see cref="ByteVector" /> object containing the frame
-		///    identifier of the Text Information Frame to read from.
-		/// </param>
-		/// <param name="index">
-		///    A <see cref="int" /> value specifying the index in the
-		///    integer list of the value to return.
-		/// </param>
-		/// <returns>
-		///    A <see cref="uint" /> value read from the list in the
-		///    frame, or 0 if the value wasn't found.
-		/// </returns>
-		private uint GetTextAsUInt32 (ByteVector ident, int index)
-		{
-			string text = GetTextAsString (ident);
-			
-			if (text == null)
-				return 0;
-			
-			string [] values = text.Split (new char [] {'/'},
-				index + 2);
+
+	    /// <summary>
+	    ///    Gets an integer value from a "/" delimited list in a
+	    ///    specified Text Information Frame.
+	    /// </summary>
+	    /// <param name="ident">
+	    ///    A <see cref="ByteVector" /> object containing the frame
+	    ///    identifier of the Text Information Frame to read from.
+	    /// </param>
+	    /// <param name="index">
+	    ///    A <see cref="int" /> value specifying the index in the
+	    ///    integer list of the value to return.
+	    /// </param>
+	    /// <returns>
+	    ///    A <see cref="uint" /> value read from the list in the
+	    ///    frame, or 0 if the value wasn't found.
+	    /// </returns>
+	    private uint GetTextAsUInt32(ByteVector ident, int index)
+	    {
+	        string text = GetTextAsString(ident);
+
+	        if (text == null)
+	            return 0;
+
+#if !SILVERLIGHT
+            string [] values = text.Split (new char [] {'/'}, index + 2);
+#else
+	        string[] values = text.Split(new char[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+#endif
 			
 			if (values.Length < index + 1)
 				return 0;
@@ -2229,7 +2232,7 @@ namespace TagLib.Id3v2 {
 			return tag;
 		}
 
-#if !PORTABLE
+#if !PORTABLE && !SILVERLIGHT
         object ICloneable.Clone()
         {
             return Clone();

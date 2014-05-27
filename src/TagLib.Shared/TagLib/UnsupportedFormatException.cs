@@ -92,7 +92,7 @@ namespace TagLib {
 	/// 	Console.WriteLine ("That file format is not supported: {0}", e.ToString ());
 	///    </code>
 	/// </example>
-#if !PORTABLE
+#if !PORTABLE && !SILVERLIGHT
     [Serializable] 
 #endif
 	public class UnsupportedFormatException : Exception
@@ -139,7 +139,7 @@ namespace TagLib {
 		{
 		}
 
-#if !PORTABLE
+#if !PORTABLE && !SILVERLIGHT
         /// <summary>
         ///    Constructs and initializes a new instance of <see
         ///    cref="UnsupportedFormatException" /> from a specified

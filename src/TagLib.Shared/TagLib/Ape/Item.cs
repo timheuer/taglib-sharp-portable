@@ -56,7 +56,7 @@ namespace TagLib.Ape {
 	///    can be read from and written to disk.
 	/// </summary>
 	public class Item 
-#if !PORTABLE
+#if !PORTABLE && !SILVERLIGHT
         : ICloneable
 #endif
 	{
@@ -525,7 +525,7 @@ namespace TagLib.Ape {
 			return new Item (this);
 		}
 
-#if !PORTABLE
+#if !PORTABLE && !SILVERLIGHT
         object ICloneable.Clone()
         {
             return Clone();

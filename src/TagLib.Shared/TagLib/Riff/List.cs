@@ -104,7 +104,7 @@ namespace TagLib.Riff {
 			Parse (file.ReadBlock (length));
 		}
 
-#if !PORTABLE
+#if !PORTABLE && !SILVERLIGHT
         /// <summary>
         ///    Constructs and initializes a new instance of <see
         ///    cref="List" /> from a specified serialization info and

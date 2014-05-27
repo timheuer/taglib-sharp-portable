@@ -33,7 +33,7 @@ namespace TagLib.Id3v2 {
 	///    ID3v2.4 frames.
 	/// </summary>
 	public abstract class Frame 
-#if !PORTABLE
+#if !PORTABLE && !SILVERLIGHT
         : ICloneable
 #endif
 	{
@@ -532,7 +532,7 @@ namespace TagLib.Id3v2 {
 				4, false);
 		}
 
-#if !PORTABLE
+#if !PORTABLE && !SILVERLIGHT
         object ICloneable.Clone()
         {
             return Clone();

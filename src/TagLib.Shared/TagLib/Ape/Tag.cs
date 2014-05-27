@@ -752,9 +752,12 @@ namespace TagLib.Ape {
 			if (text == null)
 				return 0;
 			
-			string [] values = text.Split (new char [] {'/'},
-				index + 2);
-			
+#if !SILVERLIGHT
+			string [] values = text.Split (new char [] {'/'}, index + 2);
+#else
+		    string[] values = text.Split(new char[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+#endif
+
 			if (values.Length < index + 1)
 				return 0;
 			

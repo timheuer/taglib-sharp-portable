@@ -1348,7 +1348,7 @@ namespace TagLib {
         /// <param name="ex"></param>
 		private static void PrepareExceptionForRethrow(Exception ex)
 		{
-#if !PORTABLE
+#if !PORTABLE && !SILVERLIGHT
             var ctx = new StreamingContext(StreamingContextStates.CrossAppDomain);
             //var ctx = new StreamingContext();
             var mgr = new ObjectManager(null, ctx);
