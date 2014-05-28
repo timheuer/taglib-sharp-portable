@@ -176,3 +176,5 @@ FakesAssemblies/
 
 #publish script
 nuget/publish.bat
+/src/TagLib.Tests/samples/Folder.jpg
+/src/TagLib.Tests/samples/AlbumArtSmall.jpg
