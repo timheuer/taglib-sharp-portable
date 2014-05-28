@@ -124,7 +124,7 @@ namespace TagLib {
 		/// </remarks>
 		public static void Register (Type type)
 		{
-#if !PORTABLE
+#if SILVERLIGHT
 			Attribute [] attrs = Attribute.GetCustomAttributes (type,
 				typeof(SupportedMimeType), false);
 #else

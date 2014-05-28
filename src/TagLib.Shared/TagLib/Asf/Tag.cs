@@ -39,13 +39,13 @@ namespace TagLib.Asf {
 		/// <summary>
 		///    Contains the content description object.
 		/// </summary>
-		private ContentDescriptionObject description =
+		private ContentDescriptionObject _description =
 			new ContentDescriptionObject ();
 		
 		/// <summary>
 		///    Contains the extended content description object.
 		/// </summary>
-		private ExtendedContentDescriptionObject ext_description =
+		private ExtendedContentDescriptionObject _extDescription =
 			new ExtendedContentDescriptionObject ();
 		
 		/// <summary>
@@ -87,11 +87,11 @@ namespace TagLib.Asf {
 			
 			foreach (Object child in header.Children) {
 				if (child is ContentDescriptionObject)
-					description =
+					_description =
 						child as ContentDescriptionObject;
 			
 				if (child is ExtendedContentDescriptionObject)
-					ext_description =
+					_extDescription =
 						child as ExtendedContentDescriptionObject;
 			}
 			
@@ -117,7 +117,7 @@ namespace TagLib.Asf {
 		///    current instance.
 		/// </value>
 		public ContentDescriptionObject ContentDescriptionObject {
-			get {return description;}
+			get {return _description;}
 		}
 		
 		/// <summary>
@@ -131,7 +131,7 @@ namespace TagLib.Asf {
 		/// </value>
 		public ExtendedContentDescriptionObject
 			ExtendedContentDescriptionObject {
-			get {return ext_description;}
+			get {return _extDescription;}
 		}
 		
 		/// <summary>
@@ -293,7 +293,7 @@ namespace TagLib.Asf {
 			if (name == null)
 				throw new ArgumentNullException ("name");
 			
-			ext_description.RemoveDescriptors (name);
+			_extDescription.RemoveDescriptors (name);
 		}
 		
 		/// <summary>
@@ -317,7 +317,7 @@ namespace TagLib.Asf {
 			if (names == null)
 				throw new ArgumentNullException ("names");
 			
-			return ext_description.GetDescriptors (names);
+			return _extDescription.GetDescriptors (names);
 		}
 		
 		/// <summary>
@@ -349,7 +349,7 @@ namespace TagLib.Asf {
 			if (name == null)
 				throw new ArgumentNullException ("name");
 			
-			ext_description.SetDescriptors (name, descriptors);
+			_extDescription.SetDescriptors (name, descriptors);
 		}
 		
 		/// <summary>
@@ -368,7 +368,7 @@ namespace TagLib.Asf {
 			if (descriptor == null)
 				throw new ArgumentNullException ("descriptor");
 			
-			ext_description.AddDescriptor (descriptor);
+			_extDescription.AddDescriptor (descriptor);
 		}
 		
 		#endregion
@@ -494,13 +494,13 @@ namespace TagLib.Asf {
 		/// </returns>
 		public IEnumerator<ContentDescriptor> GetEnumerator ()
 		{
-			return ext_description.GetEnumerator ();
+			return _extDescription.GetEnumerator ();
 		}
 		
 		System.Collections.IEnumerator
 			System.Collections.IEnumerable.GetEnumerator ()
 		{
-			return ext_description.GetEnumerator ();
+			return _extDescription.GetEnumerator ();
 		}
 		
 #endregion
@@ -533,8 +533,8 @@ namespace TagLib.Asf {
 		///    the ASF Content Description Object.
 		/// </remarks>
 		public override string Title {
-			get {return description.Title;}
-			set {description.Title = value;}
+			get {return _description.Title;}
+			set {_description.Title = value;}
 		}
 		
 		/// <summary>
@@ -575,8 +575,8 @@ namespace TagLib.Asf {
 		///    the ASF Content Description Object.
 		/// </remarks>
 		public override string [] Performers {
-			get {return SplitAndClean (description.Author);}
-			set {description.Author = string.Join ("; ", value);}
+			get {return SplitAndClean (_description.Author);}
+			set {_description.Author = string.Join ("; ", value);}
 		}
 		
 		/// <summary>
@@ -740,8 +740,8 @@ namespace TagLib.Asf {
 		///    in the ASF Content Description Object.
 		/// </remarks>
 		public override string Comment {
-			get {return description.Description;}
-			set {description.Description = value;}
+			get {return _description.Description;}
+			set {_description.Description = value;}
 		}
 		
 		/// <summary>
@@ -770,13 +770,13 @@ namespace TagLib.Asf {
 				for (int i = 0; i < result.Length; i ++) {
 					string genre = result [i].Trim ();
 					
-					byte genre_id;
+					byte genreId;
 					int closing = genre.IndexOf (')');
 					if (closing > 0 && genre[0] == '(' &&
 						byte.TryParse (genre.Substring (
-						1, closing - 1), out genre_id))
+						1, closing - 1), out genreId))
 						genre = TagLib.Genres
-							.IndexToAudio (genre_id);
+							.IndexToAudio (genreId);
 					
 					result [i] = genre;
 				}
@@ -1116,8 +1116,8 @@ namespace TagLib.Asf {
 		///    in the ASF Content Description Object.
 		/// </remarks>
 		public override string Copyright {
-			get {return description.Copyright;}
-			set {description.Copyright = value;}
+			get {return _description.Copyright;}
+			set {_description.Copyright = value;}
 		}
 		
 		/// <summary>
@@ -1355,16 +1355,16 @@ namespace TagLib.Asf {
 				
 				List<ByteVector> pics = new List<ByteVector> ();
 				
-				bool big_pics = false;
+				bool bigPics = false;
 				
 				foreach (IPicture pic in value) {
 					ByteVector data = PictureToData (pic);
 					pics.Add (data);
 					if (data.Count > 0xFFFF)
-						big_pics = true;
+						bigPics = true;
 				}
 				
-				if (big_pics) {
+				if (bigPics) {
 					DescriptionRecord [] records =
 						new DescriptionRecord [pics.Count];
 					for (int i = 0; i < pics.Count; i ++)
@@ -1395,8 +1395,8 @@ namespace TagLib.Asf {
 		/// </value>
 		public override bool IsEmpty {
 			get {
-				return description.IsEmpty &&
-					ext_description.IsEmpty;
+				return _description.IsEmpty &&
+					_extDescription.IsEmpty;
 			}
 		}
 		
@@ -1405,8 +1405,8 @@ namespace TagLib.Asf {
 		/// </summary>
 		public override void Clear ()
 		{
-			description = new ContentDescriptionObject ();
-			ext_description =
+			_description = new ContentDescriptionObject ();
+			_extDescription =
 				new ExtendedContentDescriptionObject ();
 			metadata_library.RemoveRecords (0, 0, "WM/Picture");
 		}

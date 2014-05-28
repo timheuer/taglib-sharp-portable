@@ -25,7 +25,6 @@
 //
 
 using System;
-using System.Runtime.Serialization;
 
 namespace TagLib {
 	/// <summary>
@@ -92,9 +91,6 @@ namespace TagLib {
 	/// 	Console.WriteLine ("That file format is not supported: {0}", e.ToString ());
 	///    </code>
 	/// </example>
-#if !PORTABLE && !SILVERLIGHT
-    [Serializable] 
-#endif
 	public class UnsupportedFormatException : Exception
 	{
 		/// <summary>
@@ -116,7 +112,7 @@ namespace TagLib {
 		///    cref="UnsupportedFormatException" /> with the default
 		///    values.
 		/// </summary>
-		public UnsupportedFormatException () : base()
+		public UnsupportedFormatException ()
 		{
 		}
 		
@@ -138,31 +134,5 @@ namespace TagLib {
 			: base (message, innerException)
 		{
 		}
-
-#if !PORTABLE && !SILVERLIGHT
-        /// <summary>
-        ///    Constructs and initializes a new instance of <see
-        ///    cref="UnsupportedFormatException" /> from a specified
-        ///    serialization info and streaming context.
-        /// </summary>
-        /// <param name="info">
-        ///    A <see cref="SerializationInfo" /> object containing the
-        ///    serialized data to be used for the new instance.
-        /// </param>
-        /// <param name="context">
-        ///    A <see cref="StreamingContext" /> object containing the
-        ///    streaming context information for the new instance.
-        /// </param>
-        /// <remarks>
-        ///    This constructor is implemented because <see
-        ///    cref="UnsupportedFormatException" /> implements the <see
-        ///    cref="ISerializable" /> interface.
-        /// </remarks>
-        protected UnsupportedFormatException(SerializationInfo info,
-                                              StreamingContext context)
-            : base(info, context)
-        {
-        } 
-#endif
 	}
 }

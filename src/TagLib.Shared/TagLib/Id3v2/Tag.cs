@@ -40,9 +40,6 @@ namespace TagLib.Id3v2 {
 	///    writing ID3v2 tags.
 	/// </summary>
 	public class Tag : TagLib.Tag, IEnumerable<Frame>
-#if !PORTABLE && !SILVERLIGHT
-        , ICloneable
-#endif
 	{
 #region Private Static Fields
 		
@@ -50,36 +47,36 @@ namespace TagLib.Id3v2 {
 		///    Contains the language to use for language specific
 		///    fields.
 		/// </summary>
-		private static string language = 
+		private static string _language = 
 			CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
 		
 		/// <summary>
 		///    Contains the field to use for new tags.
 		/// </summary>
-		private static byte default_version = 3;
+		private static byte _defaultVersion = 3;
 		
 		/// <summary>
 		///    Indicates whether or not all tags should be saved in
-		///    <see cref="default_version" />.
+		///    <see cref="_defaultVersion" />.
 		/// </summary>
-		private static bool force_default_version = false;
+		private static bool _forceDefaultVersion;
 		
 		/// <summary>
 		///    Specifies the default string type to use for new frames.
 		/// </summary>
-		private static StringType default_string_type = StringType.UTF8;
+		private static StringType _defaultStringType = StringType.UTF8;
 		
 		/// <summary>
 		///    Specifies whether or not all frames shoudl be saved in
-		///    <see cref="default_string_type" />.
+		///    <see cref="_defaultStringType" />.
 		/// </summary>
-		private static bool force_default_string_type = false;
+		private static bool _forceDefaultStringType;
 		
 		/// <summary>
 		///    Specifies whether or not numeric genres should be used
 		///    when available.
 		/// </summary>
-		private static bool use_numeric_genres = true;
+		private static bool _useNumericGenres = true;
 		
 #endregion
 		
@@ -90,12 +87,12 @@ namespace TagLib.Id3v2 {
 		/// <summary>
 		///    Contains the tag's header.
 		/// </summary>
-		private Header header = new Header ();
+		private Header _header;
 		
 		/// <summary>
 		///    Contains the tag's extended header.
 		/// </summary>
-		private ExtendedHeader extended_header = null;
+		private ExtendedHeader _extendedHeader;
 		
 		/// <summary>
 		///    Contains the tag's frames.
@@ -141,7 +138,7 @@ namespace TagLib.Id3v2 {
 			if (file == null)
 				throw new ArgumentNullException ("file");
 			
-			file.Mode = TagLib.File.AccessMode.Read;
+			file.Mode = File.AccessMode.Read;
 			
 			if (position < 0 ||
 				position > file.Length - Header.Size)
@@ -174,20 +171,20 @@ namespace TagLib.Id3v2 {
 				throw new CorruptFileException (
 					"Does not contain enough header data.");
 			
-			header = new Header (data);
+			_header = new Header (data);
 			
 			// If the tag size is 0, then this is an invalid tag.
 			// Tags must contain at least one frame.
 			
-			if(header.TagSize == 0)
+			if(_header.TagSize == 0)
 				return;
 			
-			if (data.Count - Header.Size < header.TagSize)
+			if (data.Count - Header.Size < _header.TagSize)
 				throw new CorruptFileException (
 					"Does not contain enough tag data.");
 			
 			Parse (data.Mid ((int) Header.Size,
-				(int) header.TagSize));
+				(int) _header.TagSize));
 		}
 		
 #endregion
@@ -558,17 +555,17 @@ namespace TagLib.Id3v2 {
 			// and padding, but does not include the tag's header or
 			// footer.
 			
-			bool has_footer = (header.Flags &
+			bool hasFooter = (_header.Flags &
 				HeaderFlags.FooterPresent) != 0;
-			bool unsynchAtFrameLevel = (header.Flags & HeaderFlags.Unsynchronisation) != 0 && Version >= 4;
-			bool unsynchAtTagLevel = (header.Flags & HeaderFlags.Unsynchronisation) != 0 && Version < 4;
+			bool unsynchAtFrameLevel = (_header.Flags & HeaderFlags.Unsynchronisation) != 0 && Version >= 4;
+			bool unsynchAtTagLevel = (_header.Flags & HeaderFlags.Unsynchronisation) != 0 && Version < 4;
 
-			header.MajorVersion = has_footer ? (byte) 4 : Version;
+			_header.MajorVersion = hasFooter ? (byte) 4 : Version;
 			
-			ByteVector tag_data = new ByteVector ();
+			ByteVector tagData = new ByteVector ();
 			
 			// TODO: Render the extended header.
-			header.Flags &= ~HeaderFlags.ExtendedHeader;
+			_header.Flags &= ~HeaderFlags.ExtendedHeader;
 			
 			// Loop through the frames rendering them and adding
 			// them to the tag_data.
@@ -581,34 +578,34 @@ namespace TagLib.Id3v2 {
 					continue;
 				
 				try {
-					tag_data.Add (frame.Render (
-						header.MajorVersion));
+					tagData.Add (frame.Render (
+						_header.MajorVersion));
 				} catch (NotImplementedException) {
 				}
 			}
 			
 			// Add unsyncronization bytes if necessary.
 			if (unsynchAtTagLevel)
-				SynchData.UnsynchByteVector (tag_data);
+				SynchData.UnsynchByteVector (tagData);
 			
 			// Compute the amount of padding, and append that to
 			// tag_data.
 			
 			
-			if (!has_footer)
-				tag_data.Add (new ByteVector ((int)
-					((tag_data.Count < header.TagSize) ? 
-					(header.TagSize - tag_data.Count) :
+			if (!hasFooter)
+				tagData.Add (new ByteVector ((int)
+					((tagData.Count < _header.TagSize) ? 
+					(_header.TagSize - tagData.Count) :
 					1024)));
 			
 			// Set the tag size.
-			header.TagSize = (uint) tag_data.Count;
+			_header.TagSize = (uint) tagData.Count;
 			
-			tag_data.Insert (0, header.Render ());
-			if (has_footer)
-				tag_data.Add (new Footer (header).Render ());
+			tagData.Insert (0, _header.Render ());
+			if (hasFooter)
+				tagData.Add (new Footer (_header).Render ());
 			
-			return tag_data;
+			return tagData;
 		}
 		
 #endregion
@@ -626,8 +623,8 @@ namespace TagLib.Id3v2 {
 		///    containing flags applied to the current instance.
 		/// </value>
 		public HeaderFlags Flags {
-			get {return header.Flags;}
-			set {header.Flags = value;}
+			get {return _header.Flags;}
+			set {_header.Flags = value;}
 		}
 		
 		/// <summary>
@@ -643,7 +640,7 @@ namespace TagLib.Id3v2 {
 		public byte Version {
 			get {
 				return ForceDefaultVersion ?
-					DefaultVersion : header.MajorVersion;
+					DefaultVersion : _header.MajorVersion;
 			}
 			set {
 				if (value < 2 || value > 4)
@@ -651,7 +648,7 @@ namespace TagLib.Id3v2 {
 						"value",
 						"Version must be 2, 3, or 4");
 				
-				header.MajorVersion = value;
+				_header.MajorVersion = value;
 			}
 		}
 		
@@ -675,9 +672,9 @@ namespace TagLib.Id3v2 {
 		///    filler.
 		/// </remarks>
 		public static string Language {
-			get {return language;}
+			get {return _language;}
 			set {
-				language = (value == null || value.Length < 3) ?
+				_language = (value == null || value.Length < 3) ?
 					"   " : value.Substring (0,3);
 			}
 		}
@@ -699,14 +696,14 @@ namespace TagLib.Id3v2 {
 		///    <paramref name="value" /> is less than 2 or more than 4.
 		/// </exception>
 		public static byte DefaultVersion {
-			get {return default_version;}
+			get {return _defaultVersion;}
 			set {
 				if (value < 2 || value > 4)
 					throw new ArgumentOutOfRangeException (
 						"value",
 						"Version must be 2, 3, or 4");
 				
-				default_version = value;
+				_defaultVersion = value;
 			}
 		}
 		
@@ -721,8 +718,8 @@ namespace TagLib.Id3v2 {
 		///    will be saved in version 4.
 		/// </value>
 		public static bool ForceDefaultVersion {
-			get {return force_default_version;}
-			set {force_default_version = value;}
+			get {return _forceDefaultVersion;}
+			set {_forceDefaultVersion = value;}
 		}
 		
 		/// <summary>
@@ -734,8 +731,8 @@ namespace TagLib.Id3v2 {
 		///    to use when creating new frames.
 		/// </value>
 		public static StringType DefaultEncoding {
-			get {return default_string_type;}
-			set {default_string_type = value;}
+			get {return _defaultStringType;}
+			set {_defaultStringType = value;}
 		}
 		
 		/// <summary>
@@ -748,8 +745,8 @@ namespace TagLib.Id3v2 {
 		///    encoding.
 		/// </value>
 		public static bool ForceDefaultEncoding {
-			get {return force_default_string_type;}
-			set {force_default_string_type = value;}
+			get {return _forceDefaultStringType;}
+			set {_forceDefaultStringType = value;}
 		}
 		
 		/// <summary>
@@ -767,8 +764,8 @@ namespace TagLib.Id3v2 {
 		///    for ID3v2.4 it would be stored as "17".
 		/// </remarks>
 		public static bool UseNumericGenres {
-			get {return use_numeric_genres;}
-			set {use_numeric_genres = value;}
+			get {return _useNumericGenres;}
+			set {_useNumericGenres = value;}
 		}
 		
 #endregion
@@ -808,15 +805,15 @@ namespace TagLib.Id3v2 {
 			
 			file.Seek (position);
 			
-			header = new Header (file.ReadBlock ((int) Header.Size));
+			_header = new Header (file.ReadBlock ((int) Header.Size));
 			
 			// If the tag size is 0, then this is an invalid tag.
 			// Tags must contain at least one frame.
 			
-			if(header.TagSize == 0)
+			if(_header.TagSize == 0)
 				return;
 			
-			Parse (file.ReadBlock ((int) header.TagSize));
+			Parse (file.ReadBlock ((int) _header.TagSize));
 		}
 		
 		/// <summary>
@@ -839,24 +836,24 @@ namespace TagLib.Id3v2 {
 
 			// If the entire tag is marked as unsynchronized, and this tag
 			// is version id3v2.3 or lower, resynchronize it.
-			bool fullTagUnsynch =  (header.MajorVersion < 4) && ((header.Flags & HeaderFlags.Unsynchronisation) != 0);
+			bool fullTagUnsynch =  (_header.MajorVersion < 4) && ((_header.Flags & HeaderFlags.Unsynchronisation) != 0);
 			if (fullTagUnsynch)
 				SynchData.ResynchByteVector (data);
 			
-			int frame_data_position = 0;
-			int frame_data_length = data.Count;
+			int frameDataPosition = 0;
+			int frameDataLength = data.Count;
 			
 			// Check for the extended header.
 			
-			if ((header.Flags & HeaderFlags.ExtendedHeader) != 0) {
-				extended_header = new ExtendedHeader (data,
-					header.MajorVersion);
+			if ((_header.Flags & HeaderFlags.ExtendedHeader) != 0) {
+				_extendedHeader = new ExtendedHeader (data,
+					_header.MajorVersion);
 				
-				if (extended_header.Size <= data.Count) {
-					frame_data_position += (int)
-						extended_header.Size;
-					frame_data_length -= (int)
-						extended_header.Size;
+				if (_extendedHeader.Size <= data.Count) {
+					frameDataPosition += (int)
+						_extendedHeader.Size;
+					frameDataLength -= (int)
+						_extendedHeader.Size;
 				}
 			}
 			
@@ -868,22 +865,22 @@ namespace TagLib.Id3v2 {
 			TextInformationFrame tdat = null;
 			TextInformationFrame time = null;
 			
-			while (frame_data_position < frame_data_length -
-				FrameHeader.Size (header.MajorVersion)) {
+			while (frameDataPosition < frameDataLength -
+				FrameHeader.Size (_header.MajorVersion)) {
 				
 				// If the next data is position is 0, assume
 				// that we've hit the padding portion of the
 				// frame data.
-				if(data [frame_data_position] == 0)
+				if(data [frameDataPosition] == 0)
 					break;
 
-				Frame frame = null;
+				Frame frame;
 
 				try {
 					frame = FrameFactory.CreateFrame(
 						data,
-						ref frame_data_position,
-						header.MajorVersion,
+						ref frameDataPosition,
+						_header.MajorVersion,
 						fullTagUnsynch);
 				} catch (NotImplementedException) {
 					continue;
@@ -902,7 +899,7 @@ namespace TagLib.Id3v2 {
 				
 				// If the tag is version 4, no post-processing
 				// is needed.
-				if (header.MajorVersion == 4)
+				if (_header.MajorVersion == 4)
 					continue;
 					
 				// Load up the first instance of each, for
@@ -934,23 +931,23 @@ namespace TagLib.Id3v2 {
 				return;
 
 			// Start with the year already in TDRC, then add the TDAT and TIME if available
-			StringBuilder tdrc_text = new StringBuilder ();
-			tdrc_text.Append (year);
+			StringBuilder tdrcText = new StringBuilder ();
+			tdrcText.Append (year);
 
 			// Add the date
 			if (tdat != null) {
-				string tdat_text = tdat.ToString ();
-				if (tdat_text.Length == 4) {
-					tdrc_text.Append ("-").Append (tdat_text, 0, 2)
-						.Append ("-").Append (tdat_text, 2, 2);
+				string tdatText = tdat.ToString ();
+				if (tdatText.Length == 4) {
+					tdrcText.Append ("-").Append (tdatText, 0, 2)
+						.Append ("-").Append (tdatText, 2, 2);
 
 					// Add the time
 					if (time != null) {
-						string time_text = time.ToString ();
+						string timeText = time.ToString ();
 							
-						if (time_text.Length == 4)
-							tdrc_text.Append ("T").Append (time_text, 0, 2)
-								.Append (":").Append (time_text, 2, 2);
+						if (timeText.Length == 4)
+							tdrcText.Append ("T").Append (timeText, 0, 2)
+								.Append (":").Append (timeText, 2, 2);
 
 						RemoveFrames (FrameType.TIME);
 					}
@@ -959,7 +956,7 @@ namespace TagLib.Id3v2 {
 				RemoveFrames (FrameType.TDAT);
 			}
 
-			tdrc.Text = new string [] { tdrc_text.ToString () };
+			tdrc.Text = new[] { tdrcText.ToString () };
 		}
 		
 #endregion
@@ -1038,9 +1035,9 @@ namespace TagLib.Id3v2 {
 	            return 0;
 
 #if !SILVERLIGHT
-            string [] values = text.Split (new char [] {'/'}, index + 2);
+            string [] values = text.Split (new[] {'/'}, index + 2);
 #else
-	        string[] values = text.Split(new char[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+	        string[] values = text.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
 #endif
 			
 			if (values.Length < index + 1)
@@ -1053,17 +1050,18 @@ namespace TagLib.Id3v2 {
 			return 0;
 		}
 
-		/// <summary>
-		/// Gets a TXXX frame via reference of the description field, optionally searching for the
-		/// frame in a case-sensitive manner.
-		/// </summary>
-		/// <param name="description">String containing the description field</param>
-		/// <returns>UserTextInformationFrame (TXXX) that corresponds to the description</returns>
-		private string GetUserTextAsString (string description, bool caseSensitive) {
+	    /// <summary>
+	    /// Gets a TXXX frame via reference of the description field, optionally searching for the
+	    /// frame in a case-sensitive manner.
+	    /// </summary>
+	    /// <param name="description">String containing the description field</param>
+	    /// <param name="caseSensitive">Whether or not it should be case sensitive</param>
+	    /// <returns>UserTextInformationFrame (TXXX) that corresponds to the description</returns>
+	    private string GetUserTextAsString (string description, bool caseSensitive) {
 
 			//Gets the TXXX frame, frame will be null if nonexistant
 			UserTextInformationFrame frame = UserTextInformationFrame.Get (
-				this, description, Tag.DefaultEncoding, false, caseSensitive);
+				this, description, DefaultEncoding, false, caseSensitive);
 
 			//TXXX frames support multivalue strings, join them up and return
 			//only the text from the frame.
@@ -1081,17 +1079,18 @@ namespace TagLib.Id3v2 {
 			return GetUserTextAsString (description, true);
 		}
 
-		/// <summary>
-		/// Creates and/or sets a UserTextInformationFrame (TXXX)  with the given
-		/// description and text, optionally searching for the frame in a case-sensitive manner.
-		/// </summary>
-		/// <param name="description">String containing the Description field for the
-		/// TXXX frame</param>
-		/// <param name="text">String containing the Text field for the TXXX frame</param>
-		private void SetUserTextAsString(string description, string text, bool caseSensitive) {
+	    /// <summary>
+	    /// Creates and/or sets a UserTextInformationFrame (TXXX)  with the given
+	    /// description and text, optionally searching for the frame in a case-sensitive manner.
+	    /// </summary>
+	    /// <param name="description">String containing the Description field for the
+	    /// TXXX frame</param>
+	    /// <param name="text">String containing the Text field for the TXXX frame</param>
+	    /// <param name="caseSensitive">Whether or not it should be case sensitive</param>
+	    private void SetUserTextAsString(string description, string text, bool caseSensitive) {
 			//Get the TXXX frame, create a new one if needed
 			UserTextInformationFrame frame = UserTextInformationFrame.Get(
-				this, description, Tag.DefaultEncoding, true, caseSensitive);
+				this, description, DefaultEncoding, true, caseSensitive);
 
 			if (!string.IsNullOrEmpty(text)) {
 				frame.Text = text.Split(';');
@@ -1480,12 +1479,12 @@ namespace TagLib.Id3v2 {
 					// The string may just be a genre
 					// number.
 					
-					string genre_from_index =
+					string genreFromIndex =
 						TagLib.Genres.IndexToAudio (
 							genre);
 					
-					if (genre_from_index != null)
-						list.Add (genre_from_index);
+					if (genreFromIndex != null)
+						list.Add (genreFromIndex);
 					else
 						list.Add (genre);
 				}
@@ -1493,7 +1492,7 @@ namespace TagLib.Id3v2 {
 				return list.ToArray ();
 			}
 			set {
-				if (value == null || !use_numeric_genres) {
+				if (value == null || !_useNumericGenres) {
 					SetTextFrame (FrameType.TCON, value);
 					return;
 				}
@@ -2171,7 +2170,7 @@ namespace TagLib.Id3v2 {
 			if (target == null)
 				throw new ArgumentNullException ("target");
 			
-			TagLib.Id3v2.Tag match = target as TagLib.Id3v2.Tag;
+			Tag match = target as Tag;
 			
 			if (match == null) {
 				base.CopyTo (target, overwrite);
@@ -2222,23 +2221,15 @@ namespace TagLib.Id3v2 {
 		public Tag Clone ()
 		{
 			Tag tag = new Tag ();
-			tag.header = header;
-			if (tag.extended_header != null)
-				tag.extended_header = extended_header.Clone ();
+			tag._header = _header;
+			if (tag._extendedHeader != null)
+				tag._extendedHeader = _extendedHeader.Clone ();
 			
 			foreach (Frame frame in frame_list)
 				tag.frame_list.Add (frame.Clone ());
 			
 			return tag;
 		}
-
-#if !PORTABLE && !SILVERLIGHT
-        object ICloneable.Clone()
-        {
-            return Clone();
-        } 
-#endif
-		
 #endregion
 	}
 }

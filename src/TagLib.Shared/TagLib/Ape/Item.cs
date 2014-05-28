@@ -56,41 +56,38 @@ namespace TagLib.Ape {
 	///    can be read from and written to disk.
 	/// </summary>
 	public class Item 
-#if !PORTABLE && !SILVERLIGHT
-        : ICloneable
-#endif
 	{
 		#region Private Fields
 		
 		/// <summary>
 		///    Contains the type of data stored in the item.
 		/// </summary>
-		private ItemType type = ItemType.Text;
+		private ItemType _type = ItemType.Text;
 		
 		/// <summary>
 		///    Contains the item key.
 		/// </summary>
-		private string key = null;
+		private string _key;
 		
 		/// <summary>
 		///    Contains the item value.
 		/// </summary>
-		private ReadOnlyByteVector data = null;
+		private ReadOnlyByteVector _data;
 		
 		/// <summary>
 		///    Contains the item text.
 		/// </summary>
-		private string [] text = null;
+		private string [] _text;
 		
 		/// <summary>
 		///    Indicates whether or not the item is read only.
 		/// </summary>
-		private bool read_only = false;
+		private bool _readOnly;
 		
 		/// <summary>
 		///    Contains the size of the item on disk.
 		/// </summary>
-		private int size_on_disk;
+		private int _sizeOnDisk;
 		
 		#endregion
 		
@@ -151,8 +148,8 @@ namespace TagLib.Ape {
 			if (value == null)
 				throw new ArgumentNullException ("value");
 			
-			this.key = key;
-			this.text = new string [] {value};
+			_key = key;
+			_text = new[] {value};
 		}
 		
 		/// <summary>
@@ -180,8 +177,8 @@ namespace TagLib.Ape {
 			if (value == null)
 				throw new ArgumentNullException ("value");
 			
-			this.key = key;
-			this.text = (string[]) value.Clone ();
+			_key = key;
+			_text = (string[]) value.Clone ();
 		}
 		
 		/// <summary>
@@ -211,8 +208,8 @@ namespace TagLib.Ape {
 			if (value == null)
 				throw new ArgumentNullException ("value");
 			
-			this.key = key;
-			this.text = value.ToArray ();
+			_key = key;
+			_text = value.ToArray ();
 		}
 		
 		/// <summary>
@@ -238,24 +235,24 @@ namespace TagLib.Ape {
 		/// <seealso cref="Item(string,string[])" />
 		public Item (string key, ByteVector value)
 		{
-			this.key = key;
-			this.type = ItemType.Binary;
+			_key = key;
+			_type = ItemType.Binary;
 			
-			data = value as ReadOnlyByteVector;
-			if (data == null)
-				data = new ReadOnlyByteVector (value);
+			_data = value as ReadOnlyByteVector;
+			if (_data == null)
+				_data = new ReadOnlyByteVector (value);
 		}
 		
 		private Item (Item item)
 		{
-			type = item.type;
-			key = item.key;
-			if (item.data != null)
-				data = new ReadOnlyByteVector (item.data);
-			if (item.text != null)
-				text = (string[]) item.text.Clone ();
-			read_only = item.read_only;
-			size_on_disk = item.size_on_disk;
+			_type = item._type;
+			_key = item._key;
+			if (item._data != null)
+				_data = new ReadOnlyByteVector (item._data);
+			if (item._text != null)
+				_text = (string[]) item._text.Clone ();
+			_readOnly = item._readOnly;
+			_sizeOnDisk = item._sizeOnDisk;
 		}
 		
 		#endregion
@@ -278,7 +275,7 @@ namespace TagLib.Ape {
 		///    of the track.
 		/// </remarks>
 		public string Key {
-			get {return key;}
+			get {return _key;}
 		}
 		
 		/// <summary>
@@ -290,7 +287,7 @@ namespace TagLib.Ape {
 		///    langword="null" /> if the item contains text.
 		/// </value>
 		public ByteVector Value {
-			get {return (type == ItemType.Binary) ? data : null;}
+			get {return (_type == ItemType.Binary) ? _data : null;}
 		}
 		
 		/// <summary>
@@ -302,7 +299,7 @@ namespace TagLib.Ape {
 		///    current instance as it last appeared on disk.
 		/// </value>
 		public int Size {
-			get {return size_on_disk;}
+			get {return _sizeOnDisk;}
 		}
 		
 		/// <summary>
@@ -314,8 +311,8 @@ namespace TagLib.Ape {
 		///    value contained in the current instance.
 		/// </value>
 		public ItemType Type {
-			get {return type;}
-			set {type = value;}
+			get {return _type;}
+			set {_type = value;}
 		}
 		
 		/// <summary>
@@ -327,8 +324,8 @@ namespace TagLib.Ape {
 		///    current instance is flagged as read-only on disk.
 		/// </value>
 		public bool ReadOnly {
-			get {return read_only;}
-			set {read_only = value;}
+			get {return _readOnly;}
+			set {_readOnly = value;}
 		}
 		
 		/// <summary>
@@ -339,11 +336,11 @@ namespace TagLib.Ape {
 		///    current instance contains no value.
 		/// </value>
 		public bool IsEmpty {
-			get {
-				if (type != ItemType.Binary)
-					return text == null || text.Length == 0;
-				else
-					return data == null || data.IsEmpty;
+			get
+			{
+			    if (_type != ItemType.Binary)
+					return _text == null || _text.Length == 0;
+			    return _data == null || _data.IsEmpty;
 			}
 		}
 		
@@ -367,13 +364,12 @@ namespace TagLib.Ape {
 		/// </returns>
 		public override string ToString ()
 		{
-			if (type == ItemType.Binary || text == null)
+		    if (_type == ItemType.Binary || _text == null)
 				return null;
-			else
-				return string.Join (", ", text);
+		    return string.Join (", ", _text);
 		}
-		
-		/// <summary>
+
+	    /// <summary>
 		///    Gets the contents of the current instance as a <see
 		///    cref="string" /> array.
 		/// </summary>
@@ -384,10 +380,10 @@ namespace TagLib.Ape {
 		/// </returns>
 		public string [] ToStringArray ()
 		{
-			if (type == ItemType.Binary || text == null)
+			if (_type == ItemType.Binary || _text == null)
 				return new string [0];
 			
-			return text;
+			return _text;
 		}
 		
 		/// <summary>
@@ -407,20 +403,20 @@ namespace TagLib.Ape {
 			
 			ByteVector result = null;
 			
-			if (type == ItemType.Binary) {
-				if (text == null && data != null)
-					result = data;
+			if (_type == ItemType.Binary) {
+				if (_text == null && _data != null)
+					result = _data;
 			}
 			
-			if (result == null && text != null) {
+			if (result == null && _text != null) {
 				result = new ByteVector ();
 				
-				for (int i = 0; i < text.Length; i ++) {
+				for (int i = 0; i < _text.Length; i ++) {
 					if (i != 0)
-						result.Add ((byte) 0);
+						result.Add (0);
 					
 					result.Add (ByteVector.FromString (
-						text [i], StringType.UTF8));
+						_text [i], StringType.UTF8));
 				}
 			}
 			
@@ -432,11 +428,11 @@ namespace TagLib.Ape {
 			output.Add (ByteVector.FromUInt ((uint) result.Count,
 				false));
 			output.Add (ByteVector.FromUInt (flags, false));
-			output.Add (ByteVector.FromString (key, StringType.UTF8));
-			output.Add ((byte) 0);
+			output.Add (ByteVector.FromString (_key, StringType.UTF8));
+			output.Add (0);
 			output.Add (result);
 			
-			size_on_disk = output.Count;
+			_sizeOnDisk = output.Count;
 			
 			return output;
 		}
@@ -480,7 +476,7 @@ namespace TagLib.Ape {
 				throw new CorruptFileException (
 					"Not enough data for APE Item");
 			
-			uint value_length = data.Mid (offset, 4).ToUInt (false);
+			uint valueLength = data.Mid (offset, 4).ToUInt (false);
 			uint flags = data.Mid (offset + 4, 4).ToUInt (false);
 			
 			ReadOnly = (flags & 1) == 1;
@@ -489,21 +485,21 @@ namespace TagLib.Ape {
 			int pos = data.Find (ByteVector.TextDelimiter (
 				StringType.UTF8), offset + 8);
 			
-			key = data.ToString (StringType.UTF8,
+			_key = data.ToString (StringType.UTF8,
 				offset + 8, pos - offset - 8);
 			
-			if (value_length > data.Count - pos - 1)
+			if (valueLength > data.Count - pos - 1)
 				throw new CorruptFileException (
 					"Invalid data length.");
 			
-			size_on_disk = pos + 1 + (int) value_length - offset;
+			_sizeOnDisk = pos + 1 + (int) valueLength - offset;
 			
 			if (Type == ItemType.Binary)
-				this.data = new ReadOnlyByteVector (
-					data.Mid (pos + 1, (int) value_length));
+				_data = new ReadOnlyByteVector (
+					data.Mid (pos + 1, (int) valueLength));
 			else
-				this.text = data.Mid (pos + 1,
-					(int) value_length).ToStrings (
+				_text = data.Mid (pos + 1,
+					(int) valueLength).ToStrings (
 						StringType.UTF8, 0);
 		}
 		
@@ -524,14 +520,6 @@ namespace TagLib.Ape {
 		{
 			return new Item (this);
 		}
-
-#if !PORTABLE && !SILVERLIGHT
-        object ICloneable.Clone()
-        {
-            return Clone();
-        } 
-#endif
-		
 #endregion
 	}
 }

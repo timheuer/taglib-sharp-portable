@@ -14,11 +14,6 @@ namespace TagLib.Tests.FileFormats
         [TestInitialize]
         public void Init()
         {
-            //_file = File.Create(SAMPLE_FILE);
-            //var streamRead = System.IO.File.OpenRead(SAMPLE_FILE);
-            ////var _stream_write = System.IO.File.OpenWrite(SAMPLE_FILE);
-            //_file = File.Create(new StreamFileAbstraction(SAMPLE_FILE, streamRead, streamRead));
-
             _file = File.Create(new LocalFileAbstraction(SAMPLE_FILE));
         }
 

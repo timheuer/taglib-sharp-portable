@@ -31,7 +31,7 @@ namespace TagLib.Mpeg4 {
 	///    This class extends <see cref="TagLib.Tag" /> to provide support
 	///    for processing Apple "ilst" tags.
 	/// </summary>
-	public class AppleTag : TagLib.Tag, IEnumerable<Box>
+	public class AppleTag : Tag, IEnumerable<Box>
 	{
 		#region Private Fields
 		
@@ -138,8 +138,8 @@ namespace TagLib.Mpeg4 {
 				foreach (ByteVector v in types) {
 					if (FixId (v) != box.BoxType)
 						continue;
-					foreach (Box data_box in box.Children) {
-						AppleDataBox adb = data_box as
+					foreach (Box dataBox in box.Children) {
+						AppleDataBox adb = dataBox as
 							AppleDataBox;
 						if (adb != null)
 							yield return adb;
@@ -191,21 +191,21 @@ namespace TagLib.Mpeg4 {
 				// they're legit, and make sure that they match
 				// what we want. Then loop through and add all
 				// the data box children to our output.
-				AppleAdditionalInfoBox mean_box =
+				AppleAdditionalInfoBox meanBox =
 					(AppleAdditionalInfoBox)
 					box.GetChild (BoxType.Mean);
-				AppleAdditionalInfoBox name_box =
+				AppleAdditionalInfoBox nameBox =
 					(AppleAdditionalInfoBox)
 					box.GetChild (BoxType.Name);
 				
-				if (mean_box == null || name_box == null ||
-					mean_box.Text != mean ||
-					name_box.Text != name)
+				if (meanBox == null || nameBox == null ||
+					meanBox.Text != mean ||
+					nameBox.Text != name)
 					continue;
 				
-				foreach (Box data_box in box.Children) {
+				foreach (Box dataBox in box.Children) {
 					AppleDataBox adb =
-						data_box as AppleDataBox;
+						dataBox as AppleDataBox;
 					
 					if (adb != null)
 						yield return adb;
@@ -414,12 +414,11 @@ namespace TagLib.Mpeg4 {
 		/// <returns>Text string from data box</returns>
 		public string GetDashBox(string meanstring, string namestring)
 		{
-			AppleDataBox data_box = GetDashAtoms(meanstring, namestring);
-			if (data_box != null) {
-				return data_box.Text;
-			} else {
-				return null;
+			AppleDataBox dataBox = GetDashAtoms(meanstring, namestring);
+			if (dataBox != null) {
+				return dataBox.Text;
 			}
+		    return null;
 		}
 			
 		/// <summary>
@@ -432,32 +431,32 @@ namespace TagLib.Mpeg4 {
 		/// <param name="datastring">String specifying text for data box</param>
 		public void SetDashBox(string meanstring, string namestring, string datastring)
 		{
-			AppleDataBox data_box = GetDashAtoms(meanstring, namestring);
+			AppleDataBox dataBox = GetDashAtoms(meanstring, namestring);
 			
 			// If we did find a data_box and we have an empty datastring we should
 			// remove the entire dash box.
-			if (data_box != null && string.IsNullOrEmpty(datastring)) {
-				AppleAnnotationBox dash_box = GetParentDashBox(meanstring, namestring);
-				dash_box.ClearChildren();
-				ilst_box.RemoveChild(dash_box);
+			if (dataBox != null && string.IsNullOrEmpty(datastring)) {
+				AppleAnnotationBox dashBox = GetParentDashBox(meanstring, namestring);
+				dashBox.ClearChildren();
+				ilst_box.RemoveChild(dashBox);
 				return;
 			}
 			
-			if (data_box != null) {
-				data_box.Text = datastring;
+			if (dataBox != null) {
+				dataBox.Text = datastring;
 			} else {
 				//Create the new boxes, should use 1 for text as a flag
-				AppleAdditionalInfoBox amean_box = new AppleAdditionalInfoBox(BoxType.Mean);
-				AppleAdditionalInfoBox aname_box = new AppleAdditionalInfoBox(BoxType.Name);
-				AppleDataBox adata_box = new AppleDataBox(BoxType.Data, 1);
-				amean_box.Text = meanstring;
-				aname_box.Text = namestring;
-				adata_box.Text = datastring;
-				AppleAnnotationBox whole_box = new AppleAnnotationBox(BoxType.DASH);
-				whole_box.AddChild(amean_box);
-				whole_box.AddChild(aname_box);
-				whole_box.AddChild(adata_box);
-				ilst_box.AddChild(whole_box);
+				AppleAdditionalInfoBox ameanBox = new AppleAdditionalInfoBox(BoxType.Mean);
+				AppleAdditionalInfoBox anameBox = new AppleAdditionalInfoBox(BoxType.Name);
+				AppleDataBox adataBox = new AppleDataBox(BoxType.Data, 1);
+				ameanBox.Text = meanstring;
+				anameBox.Text = namestring;
+				adataBox.Text = datastring;
+				AppleAnnotationBox wholeBox = new AppleAnnotationBox(BoxType.DASH);
+				wholeBox.AddChild(ameanBox);
+				wholeBox.AddChild(anameBox);
+				wholeBox.AddChild(adataBox);
+				ilst_box.AddChild(wholeBox);
 			}
 		}
 		
@@ -478,18 +477,17 @@ namespace TagLib.Mpeg4 {
 				// a match.  If we have a match return
 				// the AppleDatabox containing the data
 				
-				AppleAdditionalInfoBox mean_box =
+				AppleAdditionalInfoBox meanBox =
 					(AppleAdditionalInfoBox)
 					box.GetChild(BoxType.Mean);
-				AppleAdditionalInfoBox name_box =
+				AppleAdditionalInfoBox nameBox =
 					(AppleAdditionalInfoBox)
 					box.GetChild(BoxType.Name);
 					
-				if (mean_box == null || name_box == null ||
-					mean_box.Text != meanstring ||
-					name_box.Text != namestring) {
-					continue;
-				} else {
+				if (meanBox == null || nameBox == null ||
+					meanBox.Text != meanstring ||
+					nameBox.Text != namestring) {
+					} else {
 					return (AppleDataBox)box.GetChild(BoxType.Data);
 				}
 			}
@@ -514,18 +512,17 @@ namespace TagLib.Mpeg4 {
 				// a match.  If we have a match return
 				// the AppleAnnotationBox that is the Parent
 				
-				AppleAdditionalInfoBox mean_box =
+				AppleAdditionalInfoBox meanBox =
 					(AppleAdditionalInfoBox)
 					box.GetChild(BoxType.Mean);
-				AppleAdditionalInfoBox name_box =
+				AppleAdditionalInfoBox nameBox =
 					(AppleAdditionalInfoBox)
 					box.GetChild(BoxType.Name);
 					
-				if (mean_box == null || name_box == null ||
-					mean_box.Text != meanstring ||
-					name_box.Text != namestring) {
-					continue;
-				} else {
+				if (meanBox == null || nameBox == null ||
+					meanBox.Text != meanstring ||
+					nameBox.Text != namestring) {
+					} else {
 					return (AppleAnnotationBox)box;
 				}
 			}
@@ -744,8 +741,7 @@ namespace TagLib.Mpeg4 {
 					return text;
 				
 				foreach (AppleDataBox box in DataBoxes (BoxType.Gnre)) {
-					if (box.Flags != (int) AppleDataBox
-						.FlagType.ContainsData)
+					if (box.Flags != (int) AppleDataBox.FlagType.ContainsData)
 						continue;
 					
 					// iTunes stores genre's in the GNRE box
@@ -760,7 +756,7 @@ namespace TagLib.Mpeg4 {
 					if (str == null)
 						continue;
 					
-					text = new string [] {str};
+					text = new[] {str};
 					break;
 				}
 				

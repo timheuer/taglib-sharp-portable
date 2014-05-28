@@ -832,25 +832,7 @@ namespace TagLib.Png
 
 		private static ByteVector Inflate (ByteVector data)
 		{
-#if HAVE_SHARPZIPLIB
-			using (System.IO.MemoryStream out_stream = new System.IO.MemoryStream ()) {
-
-				ICSharpCode.SharpZipLib.Zip.Compression.Inflater inflater =
-					new ICSharpCode.SharpZipLib.Zip.Compression.Inflater ();
-
-				inflater.SetInput (data.Data);
-
-				byte [] buffer = new byte [1024];
-				int written_bytes;
-
-				while ((written_bytes = inflater.Inflate (buffer)) > 0)
-					out_stream.Write (buffer, 0, written_bytes);
-
-				return new ByteVector (out_stream.ToArray ());
-			}
-#else
 			return null;
-#endif
 		}
 
 

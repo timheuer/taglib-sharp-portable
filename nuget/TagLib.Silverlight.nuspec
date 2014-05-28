@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+    <metadata>
+        <id>TagLib.Silverlight</id>
+        <version>1.0.2-pre</version>
+        <title>TagLib# (Silverlight 5)</title>
+        <authors>Tim Heuer</authors>
+        <owners>Tim Heuer</owners>
+        <licenseUrl>https://github.com/timheuer/taglib-sharp-portable/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/timheuer/taglib-sharp-portable</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/timheuer/taglib-sharp-portable/master/nuget/taglib.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>TagLib# is a library to read ID3 and other metadat format from files.  This is a popular metadata format for audio/video files to extract artist/title/album art.  This is an implementation of TagLib# forked for forward progress using .NET Portable profiles.</description>
+        <releaseNotes>1.0.2-pre: Fix #4 using Dispose on Stream for IFileAbstraction impelementations.</releaseNotes>
+        <tags>taglib id3lib id3 aac mp3 tag winrt xamarin pcl silverlights</tags>
+    </metadata>
+    <files>
+        <file src="..\src\TagLib.Silverlight\bin\Release\TagLib.Silverlight.dll" target="lib\sl50\TagLib.Silverlight.dll" />
+    </files>
+</package>

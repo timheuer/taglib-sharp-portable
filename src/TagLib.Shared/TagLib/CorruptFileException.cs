@@ -25,7 +25,6 @@
 //
 
 using System;
-using System.Runtime.Serialization;
 
 namespace TagLib {
 	/// <summary>
@@ -97,9 +96,6 @@ namespace TagLib {
 	/// 	Console.WriteLine ("That file is corrupt: {0}", e.ToString ());
 	///    </code>
 	/// </example>
-#if !PORTABLE && !SILVERLIGHT
-    [Serializable] 
-#endif
 	public class CorruptFileException : Exception
 	{
 		/// <summary>
@@ -120,7 +116,7 @@ namespace TagLib {
 		///    cref="CorruptFileException" /> with the default
 		///    values.
 		/// </summary>
-		public CorruptFileException () : base()
+		public CorruptFileException ()
 		{
 		}
 		
@@ -142,31 +138,5 @@ namespace TagLib {
 			: base (message, innerException)
 		{
 		}
-
-#if !PORTABLE && !SILVERLIGHT
-        /// <summary>
-        ///    Constructs and initializes a new instance of <see
-        ///    cref="CorruptFileException" /> from a specified
-        ///    serialization info and streaming context.
-        /// </summary>
-        /// <param name="info">
-        ///    A <see cref="SerializationInfo" /> object containing the
-        ///    serialized data to be used for the new instance.
-        /// </param>
-        /// <param name="context">
-        ///    A <see cref="StreamingContext" /> object containing the
-        ///    streaming context information for the new instance.
-        /// </param>
-        /// <remarks>
-        ///    This constructor is implemented because <see
-        ///    cref="CorruptFileException" /> implements the <see
-        ///    cref="ISerializable" /> interface.
-        /// </remarks>
-        protected CorruptFileException(SerializationInfo info,
-                                        StreamingContext context)
-            : base(info, context)
-        {
-        } 
-#endif
 	}
 }

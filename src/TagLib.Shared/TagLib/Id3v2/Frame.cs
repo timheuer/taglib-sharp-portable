@@ -33,9 +33,6 @@ namespace TagLib.Id3v2 {
 	///    ID3v2.4 frames.
 	/// </summary>
 	public abstract class Frame 
-#if !PORTABLE && !SILVERLIGHT
-        : ICloneable
-#endif
 	{
 		#region Private Fields
 		
@@ -531,14 +528,6 @@ namespace TagLib.Id3v2 {
 			return FrameFactory.CreateFrame (Render (4), ref index,
 				4, false);
 		}
-
-#if !PORTABLE && !SILVERLIGHT
-        object ICloneable.Clone()
-        {
-            return Clone();
-        } 
-#endif
-		
 #endregion
 	}
 }

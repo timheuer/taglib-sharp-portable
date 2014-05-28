@@ -23,9 +23,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Globalization;
-using System.Runtime.Serialization;
 
 namespace TagLib.Riff {
 	/// <summary>
@@ -103,32 +101,6 @@ namespace TagLib.Riff {
 			file.Seek (position);
 			Parse (file.ReadBlock (length));
 		}
-
-#if !PORTABLE && !SILVERLIGHT
-        /// <summary>
-        ///    Constructs and initializes a new instance of <see
-        ///    cref="List" /> from a specified serialization info and
-        ///    streaming context.
-        /// </summary>
-        /// <param name="info">
-        ///    A <see cref="SerializationInfo" /> object containing the
-        ///    serialized data to be used for the new instance.
-        /// </param>
-        /// <param name="context">
-        ///    A <see cref="StreamingContext" /> object containing the
-        ///    streaming context information for the new instance.
-        /// </param>
-        /// <remarks>
-        ///    This constructor is implemented because <see
-        ///    cref="List" /> implements the <see cref="ISerializable"
-        ///    /> interface.
-        /// </remarks>
-        protected List(SerializationInfo info,
-                        StreamingContext context)
-            : base(info, context)
-        {
-        } 
-#endif
 #endregion
 		
 		
