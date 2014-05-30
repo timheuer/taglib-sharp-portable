@@ -6,14 +6,14 @@
 msbuild /verbosity:quiet /fl /t:Rebuild /p:Configuration=Release /property:GenerateLibraryLayout=false /p:NoWarn=0618 src\TagLib.Portable\TagLib.Portable.csproj
 msbuild /verbosity:quiet /fl /t:Rebuild /p:Configuration=Release /property:GenerateLibraryLayout=false /p:NoWarn=0618 src\TagLib.Portable\TagLib.Silverlight.csproj
 
-pushd nuget
-
 @echo *******************************************
 @echo * COPYING BINARIES FOR NUGET              *
 @echo *******************************************
 mkdir .\TagLib\lib\
-copy ..\..\src\TagLib.Portable\bin\release\TagLib.Portable.dll .\TagLib\lib\
-copy ..\..\src\TagLib.Portable\bin\release\TagLib.Silverlight.dll .\TagLib\lib\
+copy src\TagLib.Portable\bin\release\TagLib.Portable.dll .\TagLib\lib\
+copy src\TagLib.Silverlight\bin\release\TagLib.Silverlight.dll .\TagLib\lib\
+
+pushd nuget
 
 @echo *******************************************
 @echo * BUILDING NUGET PAKCAGE					*
