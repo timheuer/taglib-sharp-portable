@@ -3,8 +3,8 @@
 @echo *******************************************
 @echo * BUILDING SOLUTION IN RELEASE			*
 @echo *******************************************
-msbuild /verbosity:quiet /fl /t:Rebuild /p:Configuration=Release /property:GenerateLibraryLayout=false /p:NoWarn=0618 src\TagLib.Portable\TagLib.Portable.csproj
-msbuild /verbosity:quiet /fl /t:Rebuild /p:Configuration=Release /property:GenerateLibraryLayout=false /p:NoWarn=0618 src\TagLib.Silverlight\TagLib.Silverlight.csproj
+msbuild /verbosity:quiet /fl /t:Rebuild /p:Configuration=Release,OutputPath=bin\Release src\TagLib.Portable\TagLib.Portable.csproj
+msbuild /verbosity:quiet /fl /t:Rebuild /p:Configuration=Release,OutputPath=bin\Release src\TagLib.Silverlight\TagLib.Silverlight.csproj
 
 @echo *******************************************
 @echo * COPYING BINARIES FOR NUGET              *
@@ -27,3 +27,5 @@ nuget pack TagLib.Silverlight.nuspec -o .\
 @echo *******************************************
 
 popd
+
+rmdir /S /Q .\TagLib
