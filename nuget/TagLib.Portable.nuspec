@@ -15,6 +15,6 @@
         <tags>taglib id3lib id3 aac mp3 tag winrt xamarin pcl</tags>
     </metadata>
     <files>
-        <file src="..\src\TagLib.Portable\bin\Release\TagLib.Portable.dll" target="lib\portable-net45+win8+wpa81\TagLib.Portable.dll" />
+        <file src="..\src\TagLib.Portable\bin\Release\TagLib.Portable.dll" target="lib\portable-net45+win+wpa81+wp8+MonoAndroid10+xamarinios10+MonoTouch10\TagLib.Portable.dll" />
     </files>
 </package>
