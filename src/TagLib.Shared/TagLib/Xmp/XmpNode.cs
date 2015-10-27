@@ -68,8 +68,8 @@ namespace TagLib.Xmp
 		public string Name {
 			get { return name; }
 			internal set {
-				if (name != null)
-					throw new Exception ("Cannot change named node");
+				if (!String.IsNullOrWhiteSpace(name))
+					throw new Exception("Cannot change named node");
 
 				if (value == null)
 					throw new ArgumentException ("value");

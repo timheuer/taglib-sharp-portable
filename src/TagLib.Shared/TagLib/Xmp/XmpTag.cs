@@ -265,7 +265,7 @@ namespace TagLib.Xmp
             XNamespace adobeNs = XNamespace.Get(ADOBE_X_NS);
             XNamespace rdfNs = XNamespace.Get(RDF_NS);
 
-            XDocument doc = XDocument.Load(data);
+            XDocument doc = XDocument.Parse(data);
             
 		    XElement node = doc.Element(XName.Get("xmpmeta", adobeNs.NamespaceName)).Element(XName.Get("RDF", rdfNs.NamespaceName));
             // Old versions of XMP were called XAP, fall back to this case (tested in sample_xap.jpg)
