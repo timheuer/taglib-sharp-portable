@@ -381,56 +381,57 @@ namespace TagLib {
 			get {return invariant_end_position;}
 			protected set {invariant_end_position = value;}
 		}
-		
-		/// <summary>
-		///    Gets and sets the file access mode in use by the current
-		///    instance.
-		/// </summary>
-		/// <value>
-		///    A <see cref="AccessMode" /> value describing the features
-		///    of stream currently in use by the current instance.
-		/// </value>
-		/// <remarks>
-		///    Changing the value will cause the stream currently in use
-		///    to be closed, except when a change is made from <see
-		///    cref="AccessMode.Write" /> to <see cref="AccessMode.Read"
-		///    /> which has no effect.
-		/// </remarks>
-		public AccessMode Mode {
-			get 
+
+        /// <summary>
+        ///    Gets and sets the file access mode in use by the current
+        ///    instance.
+        /// </summary>
+        /// <value>
+        ///    A <see cref="AccessMode" /> value describing the features
+        ///    of stream currently in use by the current instance.
+        /// </value>
+        /// <remarks>
+        ///    Changing the value will cause the stream currently in use
+        ///    to be closed, except when a change is made from <see
+        ///    cref="AccessMode.Write" /> to <see cref="AccessMode.Read"
+        ///    /> which has no effect.
+        /// </remarks>
+        public AccessMode Mode
+        {
+            get
             {
                 return (file_stream == null) ?
                 AccessMode.Closed : (file_stream.CanWrite) ?
                     AccessMode.Write : AccessMode.Read;
             }
-			set 
+            set
             {
-				if (Mode == value || (Mode == AccessMode.Write
-					&& value == AccessMode.Read))
-					return;
-				
-				if (file_stream != null)
-					file_abstraction.CloseStream (file_stream);
-				
-				file_stream = null;
-				
-				if (value == AccessMode.Read)
-					file_stream = file_abstraction.ReadStream;
-				else if (value == AccessMode.Write)
-					file_stream = file_abstraction.WriteStream;
-				
-				Mode = value;
-			}
-		}
-		
-		/// <summary>
-		///    Indicates if tags can be written back to the current file or not
-		/// </summary>
-		/// <value>
-		///    A <see cref="bool" /> which is true if tags can be written to the
-		///    current file, otherwise false.
-		/// </value>
-		public virtual bool Writeable {
+                if (Mode == value || (Mode == AccessMode.Write
+                    && value == AccessMode.Read))
+                    return;
+
+                //if (file_stream != null)                              //Closing a stream here is causing code to throw System.ObjectDisposedException exception
+                //	file_abstraction.CloseStream (file_stream);         //Closing the stream should be done by the caller.
+
+                file_stream = null;
+
+                if (value == AccessMode.Read)
+                    file_stream = file_abstraction.ReadStream;
+                else if (value == AccessMode.Write)
+                    file_stream = file_abstraction.WriteStream;
+                else if (value == AccessMode.Closed)                    //To avoid StackOverflowException 
+                    Mode = value;
+            }
+        }
+
+        /// <summary>
+        ///    Indicates if tags can be written back to the current file or not
+        /// </summary>
+        /// <value>
+        ///    A <see cref="bool" /> which is true if tags can be written to the
+        ///    current file, otherwise false.
+        /// </value>
+        public virtual bool Writeable {
 			get { return !PossiblyCorrupt; }
 		}
 
