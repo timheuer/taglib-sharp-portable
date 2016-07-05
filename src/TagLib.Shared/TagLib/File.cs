@@ -488,6 +488,7 @@ namespace TagLib {
 		///    file it represents.
 		/// </summary>
 		public abstract void Save ();
+
 		
 		/// <summary>
 		///    Removes a set of tag types from the current instance.
@@ -1472,7 +1473,7 @@ namespace TagLib {
 			///    this point, <see cref="CloseStream" /> should be
 			///    implemented in a way to keep it open.
 			/// </remarks>
-			System.IO.Stream ReadStream  {get;}
+			System.IO.MemoryStream ReadStream  {get;}
 			
 			/// <summary>
 			///    Gets a writable, seekable stream for the file
@@ -1491,7 +1492,7 @@ namespace TagLib {
 			///    cref="CloseStream" /> should be implemented in a
 			///    way to keep it open.
 			/// </remarks>
-			System.IO.Stream WriteStream {get;}
+			System.IO.MemoryStream WriteStream {get;}
 			
 			/// <summary>
 			///    Closes a stream originating from the current
@@ -1508,7 +1509,7 @@ namespace TagLib {
 			///    the current instance, or a stream that will
 			///    subsequently be used to play the file.
 			/// </remarks>
-			void CloseStream (System.IO.Stream stream);
+			void CloseStream (System.IO.MemoryStream stream);
 		}
 		
 		#endregion

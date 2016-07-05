@@ -2109,7 +2109,7 @@ namespace TagLib {
 			if (abstraction == null)
 				throw new ArgumentNullException ("abstraction");
 			
-			System.IO.Stream stream = abstraction.ReadStream;
+			System.IO.MemoryStream stream = abstraction.ReadStream;
 			ByteVector output = FromStream (stream, out firstChunk,
 				copyFirstChunk);
 			abstraction.CloseStream (stream);
