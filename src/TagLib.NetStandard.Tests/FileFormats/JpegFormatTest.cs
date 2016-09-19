@@ -80,7 +80,7 @@ namespace TagLib.Tests.FileFormats
         [TestMethod]
         public void TestConstructor1()
         {
-            var file = new Jpeg.File(new LocalFileAbstraction(SAMPLE_FILE), ReadStyle.None);
+            var file = new Jpeg.File(new LocalFileAbstraction(SAMPLE_FILE), ReadStyle.Average);
             Assert.IsNotNull(file.ImageTag, "ImageTag");
             Assert.AreEqual(CONTAINED_TYPES, file.TagTypes);
 
