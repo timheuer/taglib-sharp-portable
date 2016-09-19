@@ -53,21 +53,21 @@ namespace TagLib.Tests.FileFormats
         {
             Assert.AreEqual ("TEST album", tag.Album);
             Assert.AreEqual ("TEST artist 1; TEST artist 2", tag.JoinedAlbumArtists);
-            Assert.AreEqual (120, tag.BeatsPerMinute);
+            Assert.AreEqual<uint> (120, tag.BeatsPerMinute);
             Assert.AreEqual ("TEST comment", tag.Comment);
             Assert.AreEqual ("TEST composer 1; TEST composer 2", tag.JoinedComposers);
             Assert.AreEqual ("TEST conductor", tag.Conductor);
             Assert.AreEqual ("TEST copyright", tag.Copyright);
-            Assert.AreEqual (100, tag.Disc);
-            Assert.AreEqual (101, tag.DiscCount);
+            Assert.AreEqual<uint> (100, tag.Disc);
+            Assert.AreEqual<uint> (101, tag.DiscCount);
             Assert.AreEqual ("TEST genre 1; TEST genre 2", tag.JoinedGenres);
             Assert.AreEqual ("TEST grouping", tag.Grouping);
             Assert.AreEqual ("TEST lyrics 1\r\nTEST lyrics 2", tag.Lyrics);
             Assert.AreEqual ("TEST performer 1; TEST performer 2", tag.JoinedPerformers);
             Assert.AreEqual ("TEST title", tag.Title);
-            Assert.AreEqual (98, tag.Track);
-            Assert.AreEqual (99, tag.TrackCount);
-            Assert.AreEqual (1999, tag.Year);
+            Assert.AreEqual<uint> (98, tag.Track);
+            Assert.AreEqual<uint> (99, tag.TrackCount);
+            Assert.AreEqual<uint> (1999, tag.Year);
         }
 
         public static void TestCorruptionResistance (string path)
