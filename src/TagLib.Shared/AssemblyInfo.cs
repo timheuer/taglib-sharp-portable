@@ -5,7 +5,7 @@
 //   Brian Nickel (brian.nickel@gmail.com)
 //
 // Copyright (C) 2006-2007 Brian Nickel
-// 
+//
 // This library is free software; you can redistribute it and/or modify
 // it  under the terms of the GNU Lesser General Public License version
 // 2.1 as published by the Free Software Foundation.
@@ -25,11 +25,3 @@ using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-
-[assembly:AssemblyVersion("2.2.0.0")]
-[assembly:AssemblyTitle ("TagLib#")]
-[assembly:AssemblyDescription ("A library for reading and writing audio metatags.")]
-[assembly:AssemblyCopyright ("Copyright (c) 2006-2007 Brian Nickel.  Copyright (c) 2009-2015 Other contributors")]
-[assembly:AssemblyCompany ("")]
-[assembly:AssemblyDelaySign(false)]
-[assembly:CLSCompliant(false)]

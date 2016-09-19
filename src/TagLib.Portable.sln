@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagLib.Portable", "TagLib.Portable\TagLib.Portable.csproj", "{B809ED4C-623A-46A2-8D33-1D742FA0AB8A}"
 EndProject
@@ -11,11 +11,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagLib.Tests", "TagLib.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagLib.Silverlight", "TagLib.Silverlight\TagLib.Silverlight.csproj", "{327E5C6B-5CFB-4839-98DE-DDCA69566775}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagLib.NetStandard", "TagLib.NetStandard\TagLib.NetStandard.csproj", "{3EF3273B-0838-4C24-B282-9659743CE888}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagLib.NetStandard.Tests", "TagLib.NetStandard.Tests\TagLib.NetStandard.Tests.csproj", "{3A3A653B-5124-47BD-B8E2-0005751F06BE}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		TagLib.Shared\TagLib.Shared.projitems*{327e5c6b-5cfb-4839-98de-ddca69566775}*SharedItemsImports = 4
-		TagLib.Shared\TagLib.Shared.projitems*{b809ed4c-623a-46a2-8d33-1d742fa0ab8a}*SharedItemsImports = 4
 		TagLib.Shared\TagLib.Shared.projitems*{3d52d490-5c15-4e67-a1ee-4337835103ac}*SharedItemsImports = 13
+		TagLib.Shared\TagLib.Shared.projitems*{3ef3273b-0838-4c24-b282-9659743ce888}*SharedItemsImports = 4
+		TagLib.Shared\TagLib.Shared.projitems*{b809ed4c-623a-46a2-8d33-1d742fa0ab8a}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +39,14 @@ Global
 		{327E5C6B-5CFB-4839-98DE-DDCA69566775}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{327E5C6B-5CFB-4839-98DE-DDCA69566775}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{327E5C6B-5CFB-4839-98DE-DDCA69566775}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EF3273B-0838-4C24-B282-9659743CE888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EF3273B-0838-4C24-B282-9659743CE888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EF3273B-0838-4C24-B282-9659743CE888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EF3273B-0838-4C24-B282-9659743CE888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A3A653B-5124-47BD-B8E2-0005751F06BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A3A653B-5124-47BD-B8E2-0005751F06BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A3A653B-5124-47BD-B8E2-0005751F06BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A3A653B-5124-47BD-B8E2-0005751F06BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

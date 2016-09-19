@@ -12,7 +12,7 @@
 // Copyright (C) 2005, 2007 Brian Nickel
 // Copyright (C) 2006 Novell, Inc.
 // Copyright (C) 2002,2003 Scott Wheeler (Original Implementation)
-// 
+//
 // This library is free software; you can redistribute it and/or modify
 // it  under the terms of the GNU Lesser General Public License version
 // 2.1 as published by the Free Software Foundation.
@@ -35,7 +35,7 @@ using System.IO;
 using System.Runtime.Serialization;
 
 namespace TagLib {
-	
+
 	/// <summary>
 	///    Specifies the level of intensity to use when reading the media
 	///    properties.
@@ -45,17 +45,17 @@ namespace TagLib {
 		///    The media properties will not be read.
 		/// </summary>
 		None = 0,
-		
+
 		// Fast = 1,
-		
+
 		/// <summary>
 		///    The media properties will be read with average accuracy.
 		/// </summary>
 		Average = 2,
-		
+
 		// Accurate = 3
 	}
-	
+
 	/// <summary>
 	///    This abstract class provides a basic framework for reading from
 	///    and writing to a file, as well as accessing basic tagging and
@@ -77,7 +77,7 @@ namespace TagLib {
 	public abstract class File : IDisposable
 	{
 		#region Enums
-		
+
 		/// <summary>
 		///   Specifies the type of file access operations currently
 		///   permitted on an instance of <see cref="File" />.
@@ -87,23 +87,23 @@ namespace TagLib {
 			///    Read operations can be performed.
 			/// </summary>
 			Read,
-		
+
 			/// <summary>
 			///    Read and write operations can be performed.
 			/// </summary>
 			Write,
-		
+
 			/// <summary>
 			///    The file is closed for both read and write
 			///    operations.
 			/// </summary>
 			Closed
 		}
-		
+
 		#endregion
-		
+
 		#region Delegates
-		
+
 		/// <summary>
 		///    This delegate is used for intervening in <see
 		///    cref="File.Create(string)" /> by resolving the file type
@@ -136,7 +136,7 @@ namespace TagLib {
 		///    methods.</para>
 		///    <para>If the resolver returns a new <see cref="File" />,
 		///    it will instantly be returned, by <see
-		///    cref="File.Create(string)" />. If it returns <see 
+		///    cref="File.Create(string)" />. If it returns <see
 		///    langword="null" />, <see cref="File.Create(string)" /> will
 		///    continue to process. If the resolver throws an exception
 		///    it will be uncaught.</para>
@@ -146,50 +146,50 @@ namespace TagLib {
 		public delegate File FileTypeResolver (IFileAbstraction abstraction,
 		                                       string mimetype,
 		                                       ReadStyle style);
-		
+
 		#endregion
-		
+
 		#region Private Properties
-		
+
 		/// <summary>
 		///    Contains the current stream used in reading/writing.
 		/// </summary>
 		private System.IO.Stream file_stream;
-		
+
 		/// <summary>
 		///    Contains the internal file abstraction.
 		/// </summary>
 		private IFileAbstraction file_abstraction;
-		
+
 		/// <summary>
 		///    Contains the mime-type of the file as provided by <see
 		///    cref="Create(string)" />.
 		/// </summary>
 		private string mime_type;
-		
+
 		/// <summary>
 		///    Contains the types of tags in the file on disk.
 		/// </summary>
 		private TagTypes tags_on_disk = TagTypes.None;
-		
+
 		/// <summary>
 		///    Contains buffer size to use when reading.
 		/// </summary>
 		private static int buffer_size = 1024;
-		
+
 		/// <summary>
 		///    Contains the file type resolvers to use in <see
 		///    cref="Create(string)" />.
 		/// </summary>
 		private static List<FileTypeResolver> file_type_resolvers
 			= new List<FileTypeResolver> ();
-		
+
 		/// <summary>
 		///    Contains position at which the invariant data portion of
 		///    the file begins.
 		/// </summary>
 		private long invariant_start_position = -1;
-		
+
 		/// <summary>
 		///    Contains position at which the invariant data portion of
 		///    the file ends.
@@ -216,9 +216,9 @@ namespace TagLib {
 		public static uint BufferSize {
 			get {return (uint) buffer_size;}
 		}
-		
+
 		#endregion
-		
+
 		#region Constructors
 		/// <summary>
 		///    Constructs and initializes a new instance of <see
@@ -236,14 +236,14 @@ namespace TagLib {
 		{
 			if (abstraction == null)
 				throw new ArgumentNullException ("abstraction");
-			
+
 			file_abstraction = abstraction;
 		}
-		
+
 		#endregion
-		
+
 		#region Public Properties
-		
+
 		/// <summary>
 		///    Gets a abstract representation of all tags stored in the
 		///    current instance.
@@ -259,7 +259,7 @@ namespace TagLib {
 		///    cref="GetTag(TagLib.TagTypes,bool)" />.</para>
 		/// </remarks>
 		public abstract Tag Tag {get;}
-		
+
 		/// <summary>
 		///    Gets the media properties of the file represented by the
 		///    current instance.
@@ -270,7 +270,7 @@ namespace TagLib {
 		///    instance.
 		/// </value>
 		public abstract Properties Properties {get;}
-		
+
 		/// <summary>
 		///    Gets the tag types contained in the physical file
 		///    represented by the current instance.
@@ -284,7 +284,7 @@ namespace TagLib {
 			get {return tags_on_disk;}
 			protected set {tags_on_disk = value;}
 		}
-		
+
 		/// <summary>
 		///    Gets the tag types contained in the current instance.
 		/// </summary>
@@ -295,7 +295,7 @@ namespace TagLib {
 		public TagTypes TagTypes {
 			get {return Tag != null ? Tag.TagTypes : TagTypes.None;}
 		}
-		
+
 		/// <summary>
 		///    Gets the name of the file as stored in its file
 		///    abstraction.
@@ -309,7 +309,7 @@ namespace TagLib {
 		public string Name {
 			get {return file_abstraction.Name;}
 		}
-		
+
 		/// <summary>
 		///    Gets the mime-type of the file as determined by <see
 		///    cref="Create(IFileAbstraction,string,ReadStyle)" /> if
@@ -325,7 +325,7 @@ namespace TagLib {
 			get {return mime_type;}
 			internal set {mime_type = value;}
 		}
-		
+
 		/// <summary>
 		///    Gets the seek position in the internal stream used by the
 		///    current instance.
@@ -338,7 +338,7 @@ namespace TagLib {
 			get {return (Mode == AccessMode.Closed) ?
 				0 : file_stream.Position;}
 		}
-		
+
 		/// <summary>
 		///    Gets the length of the file represented by the current
 		///    instance.
@@ -351,7 +351,7 @@ namespace TagLib {
 			get {return (Mode == AccessMode.Closed) ?
 				0 : file_stream.Length;}
 		}
-		
+
 		/// <summary>
 		///    Gets the position at which the invariant portion of the
 		///    current instance begins.
@@ -366,7 +366,7 @@ namespace TagLib {
 			get {return invariant_start_position;}
 			protected set {invariant_start_position = value;}
 		}
-		
+
 		/// <summary>
 		///    Gets the position at which the invariant portion of the
 		///    current instance ends.
@@ -419,7 +419,7 @@ namespace TagLib {
                     file_stream = file_abstraction.ReadStream;
                 else if (value == AccessMode.Write)
                     file_stream = file_abstraction.WriteStream;
-                else if (value == AccessMode.Closed)                    //To avoid StackOverflowException 
+                else if (value == AccessMode.Closed)                    //To avoid StackOverflowException
                     Mode = value;
             }
         }
@@ -458,7 +458,7 @@ namespace TagLib {
 		}
 
 		#endregion
-		
+
 		#region Public Methods
 
 		/// <summary>
@@ -481,14 +481,18 @@ namespace TagLib {
 		public void Dispose ()
 		{
 			Mode = AccessMode.Closed;
-		}
-		
+
+            file_stream?.Dispose();
+            file_abstraction?.ReadStream?.Dispose();
+            file_abstraction?.WriteStream?.Dispose();
+        }
+
 		/// <summary>
 		///    Saves the changes made in the current instance to the
 		///    file it represents.
 		/// </summary>
 		public abstract void Save ();
-		
+
 		/// <summary>
 		///    Removes a set of tag types from the current instance.
 		/// </summary>
@@ -501,7 +505,7 @@ namespace TagLib {
 		///    cref="TagTypes.AllTags" /> as <paramref name="types" />.
 		/// </remarks>
 		public abstract void RemoveTags (TagTypes types);
-		
+
 		/// <summary>
 		///    Gets a tag of a specified type from the current instance,
 		///    optionally creating a new tag if possible.
@@ -537,20 +541,20 @@ namespace TagLib {
 		///   TagLib.Id3v2.Tag id3 = file.GetTag (TagLib.TagTypes.Id3v2, true);
 		///   if (id3 != null)
 		///      id3.SetTextFrame ("TMOO", moods);
-		///   
+		///
 		///   TagLib.Asf.Tag asf = file.GetTag (TagLib.TagTypes.Asf, true);
 		///   if (asf != null)
 		///      asf.SetDescriptorStrings (moods, "WM/Mood", "Mood");
-		///   
+		///
 		///   TagLib.Ape.Tag ape = file.GetTag (TagLib.TagTypes.Ape);
 		///   if (ape != null)
 		///      ape.SetValue ("MOOD", moods);
-		///      
+		///
 		///   // Whatever tag types you want...
 		///}</code>
 		/// </example>
 		public abstract Tag GetTag (TagTypes type, bool create);
-		
+
 		/// <summary>
 		///    Gets a tag of a specified type from the current instance.
 		/// </summary>
@@ -583,23 +587,23 @@ namespace TagLib {
 		///      if (f != null)
 		///         return f.FieldList.ToArray ();
 		///   }
-		///   
+		///
 		///   TagLib.Asf.Tag asf = file.GetTag (TagLib.TagTypes.Asf);
 		///   if (asf != null) {
 		///      string [] value = asf.GetDescriptorStrings ("WM/Mood", "Mood");
 		///      if (value.Length &gt; 0)
 		///         return value;
 		///   }
-		///   
+		///
 		///   TagLib.Ape.Tag ape = file.GetTag (TagLib.TagTypes.Ape);
 		///   if (ape != null) {
 		///      Item item = ape.GetItem ("MOOD");
 		///      if (item != null)
 		///         return item.ToStringArray ();
 		///   }
-		///      
+		///
 		///   // Whatever tag types you want...
-		///   
+		///
 		///   return new string [] {};
 		///}</code>
 		/// </example>
@@ -607,7 +611,7 @@ namespace TagLib {
 		{
 			return GetTag (type, false);
 		}
-		
+
 		/// <summary>
 		///    Reads a specified number of bytes at the current seek
 		///    position from the current instance.
@@ -634,12 +638,12 @@ namespace TagLib {
 				throw new ArgumentException (
 					"Length must be non-negative",
 					"length");
-			
+
 			if (length == 0)
 				return new ByteVector ();
-			
+
 			Mode = AccessMode.Read;
-			
+
 			byte [] buffer = new byte [length];
 
 			int count = 0, read = 0, needed = length;
@@ -653,7 +657,7 @@ namespace TagLib {
 
 			return new ByteVector (buffer, read);
 		}
-		
+
 		/// <summary>
 		///    Writes a block of data to the file represented by the
 		///    current instance at the current seek position.
@@ -674,12 +678,12 @@ namespace TagLib {
 		{
 			if (data == null)
 				throw new ArgumentNullException ("data");
-			
+
 			Mode = AccessMode.Write;
-			
+
 			file_stream.Write (data.Data, 0, data.Count);
 		}
-		
+
 		/// <summary>
 		///    Searches forwards through a file for a specified
 		///    pattern, starting at a specified offset.
@@ -709,15 +713,15 @@ namespace TagLib {
 		{
 			if (pattern == null)
 				throw new ArgumentNullException ("pattern");
-			
+
 			Mode = AccessMode.Read;
-			
+
 			if (pattern.Count > buffer_size)
 				return -1;
-			
+
 			// The position in the file that the current buffer
 			// starts at.
-			
+
 			long buffer_offset = startPosition;
 			long original_position = file_stream.Position;
 
@@ -742,13 +746,13 @@ namespace TagLib {
 						buffer_offset -= before.Count - pattern.Count;
 					file_stream.Position = buffer_offset;
 				}
-				
+
 				return -1;
 			} finally {
 				file_stream.Position = original_position;
 			}
 		}
-		
+
 		/// <summary>
 		///    Searches forwards through a file for a specified
 		///    pattern, starting at a specified offset.
@@ -772,7 +776,7 @@ namespace TagLib {
 		{
 			return Find (pattern, startPosition, null);
 		}
-		
+
 		/// <summary>
 		///    Searches forwards through a file for a specified
 		///    pattern, starting at the beginning of the file.
@@ -792,7 +796,7 @@ namespace TagLib {
 		{
 			return Find (pattern, 0);
 		}
-		
+
 		/// <summary>
 		///    Searches backwards through a file for a specified
 		///    pattern, starting at a specified offset.
@@ -826,17 +830,17 @@ namespace TagLib {
 		{
 			if (pattern == null)
 				throw new ArgumentNullException ("pattern");
-			
+
 			Mode = AccessMode.Read;
 
 			if (pattern.Count > buffer_size)
 				return -1;
-			
+
 			// The position in the file that the current buffer
 			// starts at.
-			
+
 			ByteVector buffer;
-			
+
 			// These variables are used to keep track of a partial
 			// match that happens at the end of a buffer.
 
@@ -844,43 +848,43 @@ namespace TagLib {
 			int previous_partial_match = -1;
 			int after_previous_partial_match = -1;
 			*/
-			
+
 			// Save the location of the current read pointer.  We
-			// will restore the position using Seek() before all 
+			// will restore the position using Seek() before all
 			// returns.
-			
+
 			long original_position = file_stream.Position;
-			
+
 			// Start the search at the offset.
-			
+
 			long buffer_offset = Length - startPosition;
 			int read_size = buffer_size;
-			
+
 			read_size = (int) Math.Min (buffer_offset, buffer_size);
 			buffer_offset -= read_size;
 			file_stream.Position = buffer_offset;
-			
+
 			// See the notes in find() for an explanation of this
 			// algorithm.
-			
+
 			for (buffer = ReadBlock (read_size); buffer.Count > 0;
 				buffer = ReadBlock (read_size)) {
-				
+
 				// TODO: (1) previous partial match
-				
+
 				// (2) pattern contained in current buffer
-				
+
 				long location = buffer.RFind (pattern);
 				if (location >= 0) {
 					file_stream.Position = original_position;
 					return buffer_offset + location;
 				}
-				
+
 				if(after != null && buffer.RFind (after) >= 0) {
 					file_stream.Position = original_position;
 					return -1;
 				}
-				
+
 				read_size = (int) Math.Min (buffer_offset, buffer_size);
 				buffer_offset -= read_size;
 				if (read_size + pattern.Count > buffer_size)
@@ -888,14 +892,14 @@ namespace TagLib {
 
 				file_stream.Position = buffer_offset;
 			}
-			
+
 			// Since we hit the end of the file, reset the status
 			// before continuing.
-			
+
 			file_stream.Position = original_position;
 			return -1;
 		}
-		
+
 		/// <summary>
 		///    Searches backwards through a file for a specified
 		///    pattern, starting at a specified offset.
@@ -919,7 +923,7 @@ namespace TagLib {
 		{
 			return RFind (pattern, startPosition, null);
 		}
-		
+
 		/// <summary>
 		///    Searches backwards through a file for a specified
 		///    pattern, starting at the end of the file.
@@ -939,7 +943,7 @@ namespace TagLib {
 		{
 			return RFind (pattern, 0);
 		}
-		
+
 		/// <summary>
 		///    Inserts a specifed block of data into the file repesented
 		///    by the current instance at a specified location,
@@ -966,7 +970,7 @@ namespace TagLib {
 		{
 			if (data == null)
 				throw new ArgumentNullException ("data");
-			
+
 			Mode = AccessMode.Write;
 
 			if (data.Count == replace) {
@@ -980,61 +984,61 @@ namespace TagLib {
 					replace - data.Count);
 				return;
 			}
-			
+
 			// Woohoo!  Faster (about 20%) than id3lib at last. I
 			// had to get hardcore and avoid TagLib's high level API
 			// for rendering just copying parts of the file that
 			// don't contain tag data.
 			//
 			// Now I'll explain the steps in this ugliness:
-			
+
 			// First, make sure that we're working with a buffer
 			// that is longer than the *differnce* in the tag sizes.
 			// We want to avoid overwriting parts that aren't yet in
 			// memory, so this is necessary.
-			
+
 			int buffer_length = buffer_size;
-			
+
 			while (data.Count - replace > buffer_length)
 				buffer_length += (int) BufferSize;
-			
+
 			// Set where to start the reading and writing.
-			
+
 			long read_position = start + replace;
 			long write_position = start;
-			
+
 			byte [] buffer;
 			byte [] about_to_overwrite;
-			
-			// This is basically a special case of the loop below.  
-			// Here we're just doing the same steps as below, but 
+
+			// This is basically a special case of the loop below.
+			// Here we're just doing the same steps as below, but
 			// since we aren't using the same buffer size -- instead
 			// we're using the tag size -- this has to be handled as
 			// a special case.  We're also using File::writeBlock()
 			// just for the tag. That's a bit slower than using char
 			// *'s so, we're only doing it here.
-			
+
 			file_stream.Position = read_position;
 			about_to_overwrite = ReadBlock (buffer_length).Data;
 			read_position += buffer_length;
-			
+
 			file_stream.Position = write_position;
 			WriteBlock (data);
 			write_position += data.Count;
-			
+
 			buffer = new byte [about_to_overwrite.Length];
 			System.Array.Copy (about_to_overwrite, 0, buffer, 0,
 				about_to_overwrite.Length);
-			
+
 			// Ok, here's the main loop.  We want to loop until the
-			// read fails, which means that we hit the end of the 
+			// read fails, which means that we hit the end of the
 			// file.
-			
+
 			while (buffer_length != 0) {
 				// Seek to the current read position and read
-				// the data that we're about to overwrite. 
+				// the data that we're about to overwrite.
 				// Appropriately increment the readPosition.
-				
+
 				file_stream.Position = read_position;
 				int bytes_read = file_stream.Read (
 					about_to_overwrite, 0, buffer_length <
@@ -1042,31 +1046,31 @@ namespace TagLib {
 						buffer_length :
 						about_to_overwrite.Length);
 				read_position += buffer_length;
-				
+
 				// Seek to the write position and write our
 				// buffer. Increment the writePosition.
-				
+
 				file_stream.Position = write_position;
 				file_stream.Write (buffer, 0,
 					buffer_length < buffer.Length ?
 						buffer_length : buffer.Length);
 				write_position += buffer_length;
-				
+
 				// Make the current buffer the data that we read
 				// in the beginning.
-				
+
 				System.Array.Copy (about_to_overwrite, 0,
 					buffer, 0, bytes_read);
-				
+
 				// Again, we need this for the last write.  We
 				// don't want to write garbage at the end of our
 				// file, so we need to set the buffer size to
 				// the amount that we actually read.
-				
+
 				buffer_length = bytes_read;
 			}
 		}
-		
+
 		/// <summary>
 		///    Inserts a specifed block of data into the file repesented
 		///    by the current instance at a specified location.
@@ -1092,7 +1096,7 @@ namespace TagLib {
 		{
 			Insert (data, start, 0);
 		}
-		
+
 		/// <summary>
 		///    Removes a specified block of data from the file
 		///    represented by the current instance.
@@ -1109,29 +1113,29 @@ namespace TagLib {
 		{
 			if (length <= 0)
 				return;
-			
+
 			Mode = AccessMode.Write;
-			
+
 			int buffer_length = buffer_size;
-			
+
 			long read_position = start + length;
 			long write_position = start;
-			
+
 			ByteVector buffer = (byte) 1;
-			
+
 			while(buffer.Count != 0) {
 				file_stream.Position = read_position;
 				buffer = ReadBlock (buffer_length);
 				read_position += buffer.Count;
-				
+
 				file_stream.Position = write_position;
 				WriteBlock (buffer);
 				write_position += buffer.Count;
 			}
-			
+
 			Truncate (write_position);
 		}
-		
+
 		/// <summary>
 		///    Seeks the read/write pointer to a specified offset in the
 		///    current instance, relative to a specified origin.
@@ -1149,7 +1153,7 @@ namespace TagLib {
 			if (Mode != AccessMode.Closed)
 				file_stream.Seek (offset, origin);
 		}
-		
+
 		/// <summary>
 		///    Seeks the read/write pointer to a specified offset in the
 		///    current instance, relative to the beginning of the file.
@@ -1162,9 +1166,9 @@ namespace TagLib {
 		{
 			Seek (offset, System.IO.SeekOrigin.Begin);
 		}
-		
+
 		#endregion
-		
+
 		#region Public Static Methods
 		/// <summary>
 		///    Creates a new instance of a <see cref="File" /> subclass
@@ -1192,7 +1196,7 @@ namespace TagLib {
 		{
 			return Create(abstraction, null, ReadStyle.Average);
 		}
-		
+
 		/// <summary>
 		///    Creates a new instance of a <see cref="File" /> subclass
 		///    for a specified file abstraction and read style, guessing
@@ -1224,7 +1228,7 @@ namespace TagLib {
 		{
 			return Create(abstraction, null, propertiesStyle);
 		}
-		
+
 		/// <summary>
 		///    Creates a new instance of a <see cref="File" /> subclass
 		///    for a specified file abstraction, mime-type, and read
@@ -1263,24 +1267,24 @@ namespace TagLib {
 		{
 			if(mimetype == null) {
 				string ext = String.Empty;
-				
+
 				int index = abstraction.Name.LastIndexOf (".") + 1;
-				
+
 				if(index >= 1 && index < abstraction.Name.Length)
 					ext = abstraction.Name.Substring (index,
 						abstraction.Name.Length - index);
-				
+
 				mimetype = "taglib/" + ext.ToLower();
 			}
-			
+
 			foreach (FileTypeResolver resolver in file_type_resolvers) {
 				File file = resolver(abstraction, mimetype,
 					propertiesStyle);
-				
+
 				if(file != null)
 					return file;
 			}
-			
+
 			if (!FileTypes.AvailableTypes.ContainsKey(mimetype))
 				throw new UnsupportedFormatException (
 					String.Format (
@@ -1288,21 +1292,21 @@ namespace TagLib {
 						"{0} ({1})",
 						abstraction.Name,
 						mimetype));
-			
+
 			Type file_type = FileTypes.AvailableTypes[mimetype];
-			
+
 			try {
 				File file = (File) Activator.CreateInstance(
 					file_type,
 					new object [] {abstraction, propertiesStyle});
-				
+
 				file.MimeType = mimetype;
 				return file;
 			} catch (System.Reflection.TargetInvocationException e) {
 				throw e.InnerException;
 			}
 		}
-		
+
 		/// <summary>
 		///    Adds a <see cref="FileTypeResolver" /> to the <see
 		///    cref="File" /> class. The one added last gets run first.
@@ -1312,7 +1316,7 @@ namespace TagLib {
 		///    file type recognition stack.
 		/// </param>
 		/// <remarks>
-		///    A <see cref="FileTypeResolver" /> adds support for 
+		///    A <see cref="FileTypeResolver" /> adds support for
 		///    recognizing a file type outside of the standard mime-type
 		///    methods.
 		/// </remarks>
@@ -1321,11 +1325,11 @@ namespace TagLib {
 			if (resolver != null)
 				file_type_resolvers.Insert (0, resolver);
 		}
-		
+
 		#endregion
-		
+
 		#region Protected Methods
-		
+
 		/// <summary>
 		///    Resized the current instance to a specified number of
 		///    bytes.
@@ -1341,10 +1345,10 @@ namespace TagLib {
 			file_stream.SetLength (length);
 			Mode = old_mode;
 		}
-		#endregion		
-		
+		#endregion
+
 		#region Interfaces
-		
+
 		/// <summary>
 		///    This interface provides abstracted access to a file. It
 		//     premits access to non-standard file systems and data
@@ -1369,7 +1373,7 @@ namespace TagLib {
 		///         return;
 		///
 		///      Gnome.Vfs.Vfs.Initialize ();
-		///      
+		///
 		///      try {
 		///          TagLib.File file = TagLib.File.Create (
 		///             new VfsFileAbstraction (args [0]));
@@ -1410,24 +1414,24 @@ namespace TagLib {
 		///import Gnome.Vfs from "gnome-vfs-sharp"
 		///
 		///class VfsFileAbstraction (TagLib.File.IFileAbstraction):
-		///        
+		///
 		///        _name as string
-		///        
+		///
 		///        def constructor(file as string):
 		///                _name = file
-		///        
+		///
 		///        Name:
 		///                get:
 		///                        return _name
-		///                
+		///
 		///        ReadStream:
 		///                get:
 		///                        return VfsStream(_name, FileMode.Open)
-		///                
+		///
 		///        WriteStream:
 		///                get:
 		///                        return VfsStream(_name, FileMode.Open)
-		///        
+		///
 		///if len(argv) == 1:
 		///        Vfs.Initialize()
 		///
@@ -1444,7 +1448,7 @@ namespace TagLib {
 			///    implementation.
 			/// </summary>
 			/// <value>
-			///    A <see cref="string" /> object containing the 
+			///    A <see cref="string" /> object containing the
 			///    name or identifier used by the implementation.
 			/// </value>
 			/// <remarks>
@@ -1454,7 +1458,7 @@ namespace TagLib {
 			///    as appropriate for the implementation.
 			/// </remarks>
 			string Name {get;}
-			
+
 			/// <summary>
 			///    Gets a readable, seekable stream for the file
 			///    referenced by the current instance.
@@ -1473,7 +1477,7 @@ namespace TagLib {
 			///    implemented in a way to keep it open.
 			/// </remarks>
 			System.IO.Stream ReadStream  {get;}
-			
+
 			/// <summary>
 			///    Gets a writable, seekable stream for the file
 			///    referenced by the current instance.
@@ -1492,7 +1496,7 @@ namespace TagLib {
 			///    way to keep it open.
 			/// </remarks>
 			System.IO.Stream WriteStream {get;}
-			
+
 			/// <summary>
 			///    Closes a stream originating from the current
 			///    instance.
@@ -1510,7 +1514,7 @@ namespace TagLib {
 			/// </remarks>
 			void CloseStream (System.IO.Stream stream);
 		}
-		
+
 		#endregion
 	}
 }
