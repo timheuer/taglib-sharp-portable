@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3A3A653B-5124-47BD-B8E2-0005751F06BE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TagLib.NetStandard.Tests</RootNamespace>
+    <AssemblyName>TagLib.NetStandard.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="Collections\ByteVectorTest.cs" />
+    <Compile Include="FileFormats\AsfFormatTest.cs" />
+    <Compile Include="FileFormats\Id3V2FormatTest.cs" />
+    <Compile Include="FileFormats\IFormatTest.cs" />
+    <Compile Include="FileFormats\JpegFormatTest.cs" />
+    <Compile Include="FileFormats\StandardTests.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="LocalFileAbstraction.cs" />
+    <Compile Include="Performance\FileTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TagLib.NetStandard\TagLib.NetStandard.csproj">
+      <Project>{3ef3273b-0838-4c24-b282-9659743ce888}</Project>
+      <Name>TagLib.NetStandard</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="samples\apple_tags.m4a" />
+    <Content Include="samples\bgo_658920.m4a" />
+    <Content Include="samples\bgo_676934.m4a" />
+    <Content Include="samples\bgo_701689.m4a" />
+    <Content Include="samples\corrupt\a.aac" />
+    <Content Include="samples\corrupt\a.aif" />
+    <Content Include="samples\corrupt\a.flac" />
+    <Content Include="samples\corrupt\a.m4a" />
+    <Content Include="samples\corrupt\a.mp3" />
+    <Content Include="samples\corrupt\a.wma" />
+    <Content Include="samples\corrupt\null_title_v2.mp3" />
+    <Content Include="samples\remove_tags.mp3" />
+    <Content Include="samples\sample.aac" />
+    <Content Include="samples\sample.aif" />
+    <Content Include="samples\sample.avi" />
+    <Content Include="samples\sample.flac" />
+    <Content Include="samples\sample.jpg" />
+    <Content Include="samples\sample.m4a" />
+    <Content Include="samples\sample.m4v" />
+    <Content Include="samples\sample.wma" />
+    <Content Include="samples\sample_badifdentrytype.jpg" />
+    <Content Include="samples\sample_bgo493530.jpg" />
+    <Content Include="samples\sample_bgo624097.jpg" />
+    <Content Include="samples\sample_bgo625367.jpg" />
+    <Content Include="samples\sample_bgo631333.jpg" />
+    <Content Include="samples\sample_both.mp3" />
+    <Content Include="samples\sample_canon_bibble5.jpg" />
+    <Content Include="samples\sample_canon_bibble5_16bit.tiff" />
+    <Content Include="samples\sample_canon_bibble5_8bit.tiff" />
+    <Content Include="samples\sample_canon_dpp_16bit.tiff" />
+    <Content Include="samples\sample_canon_dpp_8bit.tiff" />
+    <Content Include="samples\sample_canon_zoombrowser.jpg" />
+    <Content Include="samples\sample_emptycomment.jpg" />
+    <Content Include="samples\sample_exiftool.gif" />
+    <Content Include="samples\sample_exiftool_long_comment.gif" />
+    <Content Include="samples\sample_exiftool_tangled1.gif" />
+    <Content Include="samples\sample_exiftool_tangled2.gif" />
+    <Content Include="samples\sample_exiftool_tangled3.gif" />
+    <Content Include="samples\sample_gimp.gif" />
+    <Content Include="samples\sample_gimp.png" />
+    <Content Include="samples\sample_gimp.tiff" />
+    <Content Include="samples\sample_gimp_exiftool.jpg" />
+    <Content Include="samples\sample_gimp_lzw.tiff" />
+    <Content Include="samples\sample_gimp_pngcrush.png" />
+    <Content Include="samples\sample_invalidifdoffset.jpg" />
+    <Content Include="samples\sample_iptc1.jpg" />
+    <Content Include="samples\sample_iptc2.jpg" />
+    <Content Include="samples\sample_iptc3.jpg" />
+    <Content Include="samples\sample_nikon1.jpg" />
+    <Content Include="samples\sample_nikon1_bibble5.jpg" />
+    <Content Include="samples\sample_nikon1_bibble5_16bit.tiff" />
+    <Content Include="samples\sample_nikon1_bibble5_8bit.tiff" />
+    <Content Include="samples\sample_nikon1_viewnx_16bit.tiff" />
+    <Content Include="samples\sample_nikon1_viewnx_8bit.tiff" />
+    <Content Include="samples\sample_nikon2.jpg" />
+    <Content Include="samples\sample_nikon2_bibble5.jpg" />
+    <Content Include="samples\sample_nikon2_bibble5_16bit.tiff" />
+    <Content Include="samples\sample_nikon2_bibble5_8bit.tiff" />
+    <Content Include="samples\sample_nikon2_viewnx_16bit.tiff" />
+    <Content Include="samples\sample_nikon2_viewnx_8bit.tiff" />
+    <Content Include="samples\sample_nikon3.jpg" />
+    <Content Include="samples\sample_nikon4.jpg" />
+    <Content Include="samples\sample_no_metadata.jpg" />
+    <Content Include="samples\sample_null_orientation.jpg" />
+    <Content Include="samples\sample_olympus1.jpg" />
+    <Content Include="samples\sample_olympus2.jpg" />
+    <Content Include="samples\sample_olympus3.jpg" />
+    <Content Include="samples\sample_olympus_corrupt_mn.jpg" />
+    <Content Include="samples\sample_panasonic.jpg" />
+    <Content Include="samples\sample_recursive_ifd.jpg" />
+    <Content Include="samples\sample_replaygain.flac" />
+    <Content Include="samples\sample_replaygain.mp3" />
+    <Content Include="samples\sample_sony1.jpg" />
+    <Content Include="samples\sample_sony2.jpg" />
+    <Content Include="samples\sample_tangled1.jpg" />
+    <Content Include="samples\sample_tangled2.jpg" />
+    <Content Include="samples\sample_tangled3.jpg" />
+    <Content Include="samples\sample_tangled4.jpg" />
+    <Content Include="samples\sample_tangled5.jpg" />
+    <Content Include="samples\sample_tangled6.jpg" />
+    <Content Include="samples\sample_unicode5.jpg" />
+    <Content Include="samples\sample_v1_only.mp3" />
+    <Content Include="samples\sample_v2_3_ext_header.mp3" />
+    <Content Include="samples\sample_v2_4_unsynch.mp3" />
+    <Content Include="samples\sample_v2_only.mp3" />
+    <Content Include="samples\sample_xap.jpg" />
+    <Content Include="samples\sample_xmpcrash.jpg" />
+    <Content Include="samples\sample_xmpnullended.jpg" />
+    <Content Include="samples\unsupported\sample.mod" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="samples\audible\first.aa" />
+    <None Include="samples\audible\fourth.aa" />
+    <None Include="samples\audible\second.aax" />
+    <None Include="samples\audible\third.aa" />
+    <None Include="samples\corrupt\a.ape" />
+    <None Include="samples\corrupt\a.mpc" />
+    <None Include="samples\corrupt\a.ogg" />
+    <None Include="samples\LICENSE" />
+    <None Include="samples\sample.ape" />
+    <None Include="samples\sample.mpc" />
+    <None Include="samples\sample.ogg" />
+    <None Include="samples\unsupported\sample.it" />
+    <None Include="samples\unsupported\sample.s3m" />
+    <None Include="samples\unsupported\sample.xm" />
+    <None Include="samples\vector.bin" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

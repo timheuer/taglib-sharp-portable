@@ -18,7 +18,7 @@ namespace TagLib.Tests.FileFormats
 
             System.IO.File.Copy(sampleFile, tmpFile);
 
-            using (var tmpStream = File.Create(new LocalFileAbstraction(tmpFile, true)))
+            using (File tmpStream = File.Create(new LocalFileAbstraction(tmpFile, true)))
             {
                 SetTags(tmpStream.Tag);
                 tmpStream.Save();
@@ -58,16 +58,16 @@ namespace TagLib.Tests.FileFormats
             Assert.AreEqual ("TEST composer 1; TEST composer 2", tag.JoinedComposers);
             Assert.AreEqual ("TEST conductor", tag.Conductor);
             Assert.AreEqual ("TEST copyright", tag.Copyright);
-            Assert.AreEqual<uint>(100, tag.Disc);
-            Assert.AreEqual<uint>(101, tag.DiscCount);
+            Assert.AreEqual<uint> (100, tag.Disc);
+            Assert.AreEqual<uint> (101, tag.DiscCount);
             Assert.AreEqual ("TEST genre 1; TEST genre 2", tag.JoinedGenres);
             Assert.AreEqual ("TEST grouping", tag.Grouping);
             Assert.AreEqual ("TEST lyrics 1\r\nTEST lyrics 2", tag.Lyrics);
             Assert.AreEqual ("TEST performer 1; TEST performer 2", tag.JoinedPerformers);
             Assert.AreEqual ("TEST title", tag.Title);
-            Assert.AreEqual<uint>(98, tag.Track);
-            Assert.AreEqual<uint>(99, tag.TrackCount);
-            Assert.AreEqual<uint>(1999, tag.Year);
+            Assert.AreEqual<uint> (98, tag.Track);
+            Assert.AreEqual<uint> (99, tag.TrackCount);
+            Assert.AreEqual<uint> (1999, tag.Year);
         }
 
         public static void TestCorruptionResistance (string path)
