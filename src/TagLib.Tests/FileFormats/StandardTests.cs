@@ -18,12 +18,16 @@ namespace TagLib.Tests.FileFormats
 
             System.IO.File.Copy(sampleFile, tmpFile);
 
-            File tmp = File.Create (new LocalFileAbstraction(tmpFile, true));
-            SetTags (tmp.Tag);
-            tmp.Save ();
+            using (File tmp = File.Create(new LocalFileAbstraction(tmpFile, true)))
+            {
+                SetTags(tmp.Tag);
+                tmp.Save();
+            }
 
-            tmp = File.Create (new LocalFileAbstraction(tmpFile));
-            CheckTags (tmp.Tag);
+            using (File tmp = File.Create(new LocalFileAbstraction(tmpFile)))
+                CheckTags(tmp.Tag);
+
+            System.IO.File.Delete(tmpFile);
         }
 
         private static void SetTags (Tag tag)
@@ -77,9 +81,9 @@ namespace TagLib.Tests.FileFormats
             catch (CorruptFileException)
             {
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
-                throw e;
+                throw;
             }
             catch
             {

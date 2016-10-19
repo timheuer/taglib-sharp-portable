@@ -80,31 +80,25 @@ namespace TagLib.Tests.FileFormats
         [TestMethod]
         public void TestConstructor1()
         {
-            var file = new Jpeg.File(new LocalFileAbstraction(SAMPLE_FILE), ReadStyle.None);
-            Assert.IsNotNull(file.ImageTag, "ImageTag");
-            Assert.AreEqual(CONTAINED_TYPES, file.TagTypes);
+            using (var file = new Jpeg.File(new LocalFileAbstraction(SAMPLE_FILE), ReadStyle.Average))
+            {
+                Assert.IsNotNull(file.ImageTag, "ImageTag");
+                Assert.AreEqual(CONTAINED_TYPES, file.TagTypes);
 
-            Assert.IsNotNull(file.Properties, "properties");
+                Assert.IsNotNull(file.Properties, "Properties");
+            }
         }
 
         [TestMethod]
         public void TestConstructor2()
         {
-            var file = new Jpeg.File(new LocalFileAbstraction(SAMPLE_FILE), ReadStyle.None);
-            Assert.IsNotNull(file.ImageTag, "ImageTag");
-            Assert.AreEqual(CONTAINED_TYPES, file.TagTypes);
+            using (var file = new Jpeg.File(new LocalFileAbstraction(SAMPLE_FILE), ReadStyle.None))
+            {
+                Assert.IsNotNull(file.ImageTag, "ImageTag");
+                Assert.AreEqual(CONTAINED_TYPES, file.TagTypes);
 
-            Assert.IsNull(file.Properties, "properties");
-        }
-
-        [TestMethod]
-        public void TestConstructor3()
-        {
-            var file = new Jpeg.File(new LocalFileAbstraction(SAMPLE_FILE), ReadStyle.None);
-            Assert.IsNotNull(file.ImageTag, "ImageTag");
-            Assert.AreEqual(CONTAINED_TYPES, file.TagTypes);
-
-            Assert.IsNull(file.Properties, "properties");
+                Assert.IsNull(file.Properties, "Properties");
+            }
         }
 
         private void TestBagNode(XmpTag tag, string ns, string name, string[] values)
