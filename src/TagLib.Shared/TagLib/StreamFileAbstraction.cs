@@ -11,7 +11,7 @@
 //
 // This library is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // See The MIT License (MIT) for more details.
 //
 // You should have received a copy of The MIT License (MIT)
@@ -26,10 +26,9 @@ namespace TagLib
     {
         public StreamFileAbstraction(string name, Stream readStream, Stream writeStream)
         {
-            // TODO: Fix deadlock when setting an actual writable Stream
-            WriteStream = readStream;
-            ReadStream = readStream;
             Name = name;
+            ReadStream = readStream;
+            WriteStream = writeStream;
         }
 
         public string Name { get; private set; }
@@ -40,7 +39,8 @@ namespace TagLib
 
         public void CloseStream(Stream stream)
         {
-            stream.Dispose();
+            if (stream != null)
+                stream.Dispose();
         }
     }
 }

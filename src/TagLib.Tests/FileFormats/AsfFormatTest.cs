@@ -31,8 +31,8 @@ namespace TagLib.Tests.FileFormats
             Assert.AreEqual("WMA comment", _file.Tag.Comment);
             Assert.AreEqual("Brit Pop", _file.Tag.FirstGenre);
             Assert.AreEqual("WMA title", _file.Tag.Title);
-            Assert.AreEqual((uint)5, _file.Tag.Track);
-            Assert.AreEqual((uint)2005, _file.Tag.Year);
+            Assert.AreEqual(5u, _file.Tag.Track);
+            Assert.AreEqual(2005u, _file.Tag.Year);
             Assert.AreEqual(1, _file.Tag.Pictures.Count(), "Embedded Album Art Found");
         }
 
