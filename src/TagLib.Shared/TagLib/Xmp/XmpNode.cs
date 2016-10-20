@@ -367,13 +367,13 @@ namespace TagLib.Xmp
             else if (IsReallySimpleType && parent.Attribute(XName.Get(XmpTag.PARSE_TYPE_URI, XmpTag.RDF_NS)) == null)
             {
                 // Simple values can be added as attributes of the parent node. Not allowed when the parent has an rdf:parseType.
-                XAttribute attr = XmpTag.CreateAttribute(parent.Document, Name, Namespace);
+                XAttribute attr = XmpTag.CreateAttribute(Name, Namespace);
                 attr.Value = Value;
                 parent.Add(attr);
             }
             else if (Type == XmpNodeType.Simple || Type == XmpNodeType.Struct)
             {
-                var node = XmpTag.CreateNode(parent.Document, Name, Namespace);
+                var node = XmpTag.CreateNode(Name, Namespace);
                 node.Value = Value;
 
                 if (Type == XmpNodeType.Struct)
@@ -381,7 +381,7 @@ namespace TagLib.Xmp
                     // Structured types are always handled as a parseType=Resource node. This way, IsReallySimpleType will
                     // not match for child nodes, which makes sure they are added as extra nodes to this node. Does the
                     // trick well, unit tests that prove this are in XmpSpecTest.
-                    XAttribute attr = XmpTag.CreateAttribute(parent.Document, XmpTag.PARSE_TYPE_URI, XmpTag.RDF_NS);
+                    XAttribute attr = XmpTag.CreateAttribute(XmpTag.PARSE_TYPE_URI, XmpTag.RDF_NS);
                     attr.Value = "Resource";
                     //node.Attributes.Append(attr);
                     node.Add(attr);
@@ -395,11 +395,11 @@ namespace TagLib.Xmp
             }
             else if (Type == XmpNodeType.Bag)
             {
-                var node = XmpTag.CreateNode(parent.Document, Name, Namespace);
+                var node = XmpTag.CreateNode(Name, Namespace);
                 // TODO: Add all qualifiers.
                 if (QualifierCount > 0)
                     throw new NotImplementedException();
-                var bag = XmpTag.CreateNode(parent.Document, XmpTag.BAG_URI, XmpTag.RDF_NS);
+                var bag = XmpTag.CreateNode(XmpTag.BAG_URI, XmpTag.RDF_NS);
                 foreach (var child in Children)
                     child.RenderInto(bag);
                 node.Add(bag);
@@ -408,11 +408,11 @@ namespace TagLib.Xmp
             }
             else if (Type == XmpNodeType.Alt)
             {
-                var node = XmpTag.CreateNode(parent.Document, Name, Namespace);
+                var node = XmpTag.CreateNode(Name, Namespace);
                 // TODO: Add all qualifiers.
                 if (QualifierCount > 0)
                     throw new NotImplementedException();
-                var bag = XmpTag.CreateNode(parent.Document, XmpTag.ALT_URI, XmpTag.RDF_NS);
+                var bag = XmpTag.CreateNode(XmpTag.ALT_URI, XmpTag.RDF_NS);
                 foreach (var child in Children)
                     child.RenderInto(bag);
                 node.Add(bag);
@@ -421,11 +421,11 @@ namespace TagLib.Xmp
             }
             else if (Type == XmpNodeType.Seq)
             {
-                var node = XmpTag.CreateNode(parent.Document, Name, Namespace);
+                var node = XmpTag.CreateNode(Name, Namespace);
                 // TODO: Add all qualifiers.
                 if (QualifierCount > 0)
                     throw new NotImplementedException();
-                var bag = XmpTag.CreateNode(parent.Document, XmpTag.SEQ_URI, XmpTag.RDF_NS);
+                var bag = XmpTag.CreateNode(XmpTag.SEQ_URI, XmpTag.RDF_NS);
                 foreach (var child in Children)
                     child.RenderInto(bag);
                 node.Add(bag);
@@ -494,7 +494,7 @@ namespace TagLib.Xmp
 				return;
 			foreach (var collection in qualifiers.Values) {
 				foreach (XmpNode node in collection.Values) {
-					XAttribute attr = XmpTag.CreateAttribute (xml.Document, node.Name, node.Namespace);
+					XAttribute attr = XmpTag.CreateAttribute(node.Name, node.Namespace);
 					attr.Value = node.Value;
 					//xml.Attributes.Append (attr);
 				    xml.Add(attr);
