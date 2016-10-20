@@ -421,7 +421,7 @@ namespace TagLib {
                 {
                     file_stream = file_abstraction.WriteStream;
                     if (file_stream != null && !file_stream.CanWrite)
-                        throw new InvalidDataException("Attempted to set a file to be writable when the underlying stream cannot be written to.");
+                        throw new InvalidOperationException("Attempted to set a file to be writable when the underlying stream cannot be written to.");
                 }
 
                 Mode = value;
