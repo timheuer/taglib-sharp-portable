@@ -159,7 +159,7 @@ namespace TagLib.Xmp
 
 		// This allows for fast string comparison using operator==
 		static readonly NameTable NameTable = new NameTable ();
-		static bool initialized = false;
+		static bool initialized;
 
 		static void Initialize ()
 		{
@@ -261,12 +261,12 @@ namespace TagLib.Xmp
 			// an XmlException. See also XmpNullValuesTest.cs.
 			if (data[data.Length-1] == '\0')
 				data = data.Substring(0, data.Length-1);
-            
+
             XNamespace adobeNs = XNamespace.Get(ADOBE_X_NS);
             XNamespace rdfNs = XNamespace.Get(RDF_NS);
 
             XDocument doc = XDocument.Parse(data);
-            
+
 		    XElement node = doc.Element(XName.Get("xmpmeta", adobeNs.NamespaceName)).Element(XName.Get("RDF", rdfNs.NamespaceName));
             // Old versions of XMP were called XAP, fall back to this case (tested in sample_xap.jpg)
             node = node ?? doc.Element(XName.Get("xapmeta", adobeNs.NamespaceName)).Element(XName.Get("RDF", rdfNs.NamespaceName));
@@ -519,11 +519,8 @@ namespace TagLib.Xmp
                         bool only_text = true;
                         foreach (XElement child in node.Elements())
                         {
-                            // TODO: FIX
                             if (child.HasElements)
                                 only_text = false;
-                            //if (!(child is XmlText))
-                            //    only_text = false;
                         }
 
                         if (only_text)
@@ -603,9 +600,8 @@ namespace TagLib.Xmp
         //}
         private void ParseResourcePropertyElement(XmpNode parent, XElement node)
         {
-            // TODO: FIX
-            //if (!node.IsPropertyElement())
-            //    throw new CorruptFileException("Invalid property");
+            if (!node.IsPropertyElement())
+                throw new CorruptFileException("Invalid property");
 
             XmpNode new_node = new XmpNode(node.Name.NamespaceName, node.Name.LocalName);
             foreach (XAttribute attr in node.Attributes())
@@ -648,9 +644,8 @@ namespace TagLib.Xmp
         //}
         private void ParseLiteralPropertyElement(XmpNode parent, XElement node)
         {
-            // TODO: FIX
-            //if (!node.IsPropertyElement())
-            //    throw new CorruptFileException("Invalid property");
+            if (!node.IsPropertyElement())
+                throw new CorruptFileException("Invalid property");
             parent.AddChild(CreateTextPropertyWithQualifiers(node, node.Value));
         }
 
@@ -681,9 +676,8 @@ namespace TagLib.Xmp
         //}
         private void ParseTypeResourcePropertyElement(XmpNode parent, XElement node)
         {
-            // TODO: FIX
-            //if (!node.IsPropertyElement())
-            //    throw new CorruptFileException("Invalid property");
+            if (!node.IsPropertyElement())
+                throw new CorruptFileException("Invalid property");
 
             XmpNode new_node = new XmpNode(node.Name.NamespaceName, node.Name.LocalName);
             new_node.Type = XmpNodeType.Struct;
@@ -741,12 +735,19 @@ namespace TagLib.Xmp
         //}
         private void ParseEmptyPropertyElement(XmpNode parent, XElement node)
         {
-            // TODO: FIX
-            //if (!node.IsPropertyElement())
-            //    throw new CorruptFileException("Invalid property");
+            if (!node.IsPropertyElement())
+                throw new CorruptFileException("Invalid property");
 
             if (node.HasElements)
                 throw new CorruptFileException(String.Format("Can't have content in this node! Node: {0}", node.Parent.Name.LocalName));
+
+            // Add list items
+            var isArrayType = parent.Type == XmpNodeType.Seq || parent.Type == XmpNodeType.Alt || parent.Type == XmpNodeType.Bag;
+            if (isArrayType && node.Is(RDF_NS, LI_URI))
+            {
+                parent.AddChild(CreateTextPropertyWithQualifiers(node, node.Value));
+                return;
+            }
 
             var rdf_value = node.Attribute(XName.Get(VALUE_URI, RDF_NS));
             var rdf_resource = node.Attribute(XName.Get(RESOURCE_URI, RDF_NS));
@@ -1268,9 +1269,9 @@ namespace TagLib.Xmp
 		public string Render ()
 		{
 			XDocument doc = new XDocument ();
-			var meta = CreateNode (doc, "xmpmeta", ADOBE_X_NS);
-			var rdf = CreateNode (doc, "RDF", RDF_NS);
-			var description = CreateNode (doc, "Description", RDF_NS);
+			var meta = CreateNode("xmpmeta", ADOBE_X_NS);
+			var rdf = CreateNode("RDF", RDF_NS);
+			var description = CreateNode("Description", RDF_NS);
 			NodeTree.RenderInto (description);
 			doc.Add (meta);
 			meta.Add (rdf);
@@ -1292,19 +1293,16 @@ namespace TagLib.Xmp
 			}
 		}
 
-		internal static XElement CreateNode (XDocument doc, string name, string ns)
-		{
+		internal static XElement CreateNode(string name, string ns)
+        {
 			EnsureNamespacePrefix (ns);
 		    return new XElement(XName.Get(name, ns), null);
-			//return doc.CreateElement (NamespacePrefixes [ns], name, ns);
 		}
 
-		internal static XAttribute CreateAttribute (XDocument doc, string name, string ns)
-		{
+		internal static XAttribute CreateAttribute(string name, string ns)
+        {
 			EnsureNamespacePrefix (ns);
-            // TODO: VERIFY
 		    return new XAttribute(XName.Get(name, ns), null);
-		    //return doc.CreateAttribute (NamespacePrefixes [ns], name, ns);
 		}
 
 #endregion
@@ -1320,7 +1318,7 @@ namespace TagLib.Xmp
 			public void Visit (XmpNode node)
 			{
 				// TODO: This should be a proper check to see if it is a nodeElement
-				if (node.Namespace == XmpTag.RDF_NS && node.Name == XmpTag.LI_URI)
+				if (node.Namespace == RDF_NS && node.Name == LI_URI)
 					return;
 
 				AddNode (node);
@@ -1345,7 +1343,7 @@ namespace TagLib.Xmp
 		/// </summary>
 		/// <value>
 		///    A <see cref="string" /> containing the comment of the
-		///    current instace.
+		///    current instance.
 		/// </value>
 		public override string Comment {
 			get {
@@ -1369,7 +1367,7 @@ namespace TagLib.Xmp
 		/// </summary>
 		/// <value>
 		///    A <see cref="string[]" /> containing the keywords of the
-		///    current instace.
+		///    current instance.
 		/// </value>
 		public override string[] Keywords {
 			get { return GetCollectionNode (DC_NS, "subject") ?? new string [] {}; }
@@ -1399,16 +1397,46 @@ namespace TagLib.Xmp
 		/// </value>
 		public override DateTime? DateTime {
 			get {
-				// TODO: use correct parsing
-				try {
-					return System.DateTime.Parse (GetTextNode (XAP_NS, "CreateDate"));
-				} catch {}
+                var createDate = GetTextNode(XAP_NS, "CreateDate");
+                var formatProvider = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat;
+                var dateTimeStyle = System.Globalization.DateTimeStyles.AssumeLocal |
+                    System.Globalization.DateTimeStyles.AllowWhiteSpaces;
 
-				return null;
+                var formats = new[]
+                {
+                    "yyyy-MM-ddTHH:mm:ss.fffffffzzzz",
+                    "yyyy-MM-ddTHH:mm:ss.ffffffzzzz",
+                    "yyyy-MM-ddTHH:mm:ss.fffffzzzz",
+                    "yyyy-MM-ddTHH:mm:ss.ffffzzzz",
+                    "yyyy-MM-ddTHH:mm:ss.fffzzzz",
+                    "yyyy-MM-ddTHH:mm:ss.ffzzzz",
+                    "yyyy-MM-ddTHH:mm:ss.fzzzz",
+                    "yyyy-MM-ddTHH:mm:sszzzz",
+                    "yyyy-MM-ddTHH:mmzzzz",
+                    "yyyy-MM-dd",
+                    "yyyy-MM",
+                    "yyyy"
+                };
+
+                DateTime tmp;
+                foreach (var format in formats)
+                {
+                    if (System.DateTime.TryParseExact(createDate, format, formatProvider, dateTimeStyle, out tmp))
+                        return tmp;
+                }
+
+                return null;
 			}
 			set {
-				// TODO: write correct format
-				SetTextNode (XAP_NS, "CreateDate", value != null ? value.ToString () : null);
+                var dateValue = string.Empty;
+                if (value != null)
+                {
+                    var date = value.Value;
+                    var utcTime = date.ToUniversalTime();
+                    dateValue = date.ToString("s") + "Z";
+                }
+
+				SetTextNode (XAP_NS, "CreateDate", dateValue);
 			}
 		}
 
