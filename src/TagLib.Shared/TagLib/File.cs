@@ -31,16 +31,15 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Runtime.Serialization;
 
-namespace TagLib {
-	
-	/// <summary>
-	///    Specifies the level of intensity to use when reading the media
-	///    properties.
-	/// </summary>
-	public enum ReadStyle {
+namespace TagLib
+{
+
+    /// <summary>
+    ///    Specifies the level of intensity to use when reading the media
+    ///    properties.
+    /// </summary>
+    public enum ReadStyle {
 		/// <summary>
 		///    The media properties will not be read.
 		/// </summary>

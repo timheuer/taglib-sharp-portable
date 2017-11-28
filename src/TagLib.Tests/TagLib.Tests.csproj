@@ -378,9 +378,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TagLib.Portable\TagLib.Portable.csproj">
-      <Project>{b809ed4c-623a-46a2-8d33-1d742fa0ab8a}</Project>
-      <Name>TagLib.Portable</Name>
+    <ProjectReference Include="..\TagLib.Standard\TagLib.Standard.csproj">
+      <Project>{fee974a7-9f5d-4c38-a970-27d49bca8a75}</Project>
+      <Name>TagLib.Standard</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
