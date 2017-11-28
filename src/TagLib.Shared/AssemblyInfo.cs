@@ -26,7 +26,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-#if !NETSTANDARD1_6
 [assembly:AssemblyVersion("2.2.0.0")]
 [assembly:AssemblyTitle ("TagLib#")]
 [assembly:AssemblyDescription ("A library for reading and writing audio metatags.")]
@@ -34,4 +33,3 @@ using System.Runtime.InteropServices;
 [assembly:AssemblyCompany ("")]
 [assembly:AssemblyDelaySign(false)]
 [assembly:CLSCompliant(false)]
-#endif
