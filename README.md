@@ -1,20 +1,13 @@
 TagLib#.Portable
 =====================
 
-[![Build status](https://ci.appveyor.com/api/projects/status/cbw5i4641d2gif4s)](https://ci.appveyor.com/project/TimHeuer/taglib-sharp-portable)
+![Build status](https://timheuer.visualstudio.com/_apis/public/build/definitions/29df2f24-eeea-4d31-a1bd-b10a1dad33f9/3/badge)
 
 This is a fork of the popular TagLib# project.  
 
 > TagLib is a library for reading and editing the meta-data of several popular audio formats. Currently it supports both ID3v1 and ID3v2 for MP3 files, Ogg Vorbis comments and ID3 tags and Vorbis comments in FLAC, MPC, Speex, WavPack TrueAudio, WAV, AIFF, MP4 and ASF files.
 
-This is re-implemented as a .NET Portable Class Library (PCL) targeting the following .NET target profiles:
-
-* .NET Framework 4.5+
-* Windows 8+
-* Windows Phone 8.1
-* Windows Phone Silverlight 8
-* Xamarin.Android
-* Xamarin.iOS
+This is re-implemented as a .NET Standard (1.6) library that can be used by several .NET platforms. See https://docs.microsoft.com/en-us/dotnet/standard/net-standard for compatibility.
 
 This is a work in progress and there are still some things needed to be done (see [issues list](https://github.com/timheuer/taglib-sharp-portable/issues)).
 
