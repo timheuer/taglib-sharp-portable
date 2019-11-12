@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
@@ -6,17 +6,19 @@
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <AssemblyVersion>2.2.0.0</AssemblyVersion>
     <Description>TagLib# is a library to read ID3 and other metadata format from files.  This is a popular metadata format for audio/video files to extract artist/title/album art.  This is an implementation of TagLib# forked for forward progress using .NET Standard profiles to be more compatible for any .NET platform.</Description>
     <Authors>Tim Heuer</Authors>
     <Company>Tim Heuer</Company>
     <Product>TagLib# Portable</Product>
     <Version>1.2.0-pre</Version>
-    <PackageLicenseUrl>https://github.com/timheuer/taglib-sharp-portable/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIcon>taglib.png</PackageIcon>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/timheuer/taglib-sharp-portable</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/timheuer/taglib-sharp-portable/master/nuget/taglib.png</PackageIconUrl>
-    <PackageTags>taglib id3lib id3 aac mp3 tag winrt xamarin pcl</PackageTags>
+    <RepositoryUrl>https://github.com/timheuer/taglib-sharp-portable</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>taglib;id3lib;id3;aac;mp3;tag;winrt;xamarin;pcl</PackageTags>
     <PackageReleaseNotes>Moved to .NET Standard 1.6 support</PackageReleaseNotes>
     <PackageId>TagLib.Portable</PackageId>
     <SignAssembly>true</SignAssembly>
@@ -27,5 +29,9 @@
   </PropertyGroup>
 
   <Import Project="..\TagLib.Shared\TagLib.Shared.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <None Include="taglib.png" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
 
 </Project>

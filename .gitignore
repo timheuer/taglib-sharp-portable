@@ -179,3 +179,4 @@ nuget/publish.bat
 /src/TagLib.Tests/samples/Folder.jpg
 /src/TagLib.Tests/samples/AlbumArtSmall.jpg
 /src/.vs/TagLib.Portable/v15/Server/sqlite3
+/src/.vs/TagLib.Portable
