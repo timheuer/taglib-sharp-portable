@@ -113,9 +113,9 @@ namespace TagLib.Tiff.Rw2
 
 	class StreamJPGAbstraction : File.IFileAbstraction
 	{
-		readonly Stream stream;
+		readonly MemoryStream stream;
 
-		public StreamJPGAbstraction (Stream stream)
+		public StreamJPGAbstraction (MemoryStream stream)
 		{
 			this.stream = stream;
 		}
@@ -124,16 +124,16 @@ namespace TagLib.Tiff.Rw2
 			get { return "JpgFromRaw.jpg"; }
 		}
 
-		public void CloseStream (System.IO.Stream stream)
+		public void CloseStream (System.IO.MemoryStream stream)
 		{
 		    stream.Dispose();
 		}
 
-		public System.IO.Stream ReadStream  {
+		public System.IO.MemoryStream ReadStream  {
 			get { return stream; }
 		}
 
-		public System.IO.Stream WriteStream  {
+		public System.IO.MemoryStream WriteStream  {
 			get { return stream; }
 		}
 	}
