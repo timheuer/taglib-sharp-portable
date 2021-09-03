@@ -5,7 +5,7 @@
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard1.6</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <AssemblyVersion>2.2.0.0</AssemblyVersion>
     <Description>TagLib# is a library to read ID3 and other metadata format from files.  This is a popular metadata format for audio/video files to extract artist/title/album art.  This is an implementation of TagLib# forked for forward progress using .NET Standard profiles to be more compatible for any .NET platform.</Description>

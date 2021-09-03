@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31631.564
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagLib.Portable", "TagLib.Portable\TagLib.Portable.csproj", "{B809ED4C-623A-46A2-8D33-1D742FA0AB8A}"
 EndProject
@@ -9,12 +9,19 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TagLib.Shared", "TagLib.Sha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagLib.Tests", "TagLib.Tests\TagLib.Tests.csproj", "{60A9B640-E82A-484D-AE06-FAF3CBA04B59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagLib.Standard", "TagLib.Standard\TagLib.Standard.csproj", "{FEE974A7-9F5D-4C38-A970-27D49BCA8A75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TagLib.Standard", "TagLib.Standard\TagLib.Standard.csproj", "{FEE974A7-9F5D-4C38-A970-27D49BCA8A75}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BEC37F31-4C6D-42D8-A0C9-B4D575941C30}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\build_deploy.yaml = ..\.github\workflows\build_deploy.yaml
+		..\.github\workflows\prbuild.yaml = ..\.github\workflows\prbuild.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		TagLib.Shared\TagLib.Shared.projitems*{3d52d490-5c15-4e67-a1ee-4337835103ac}*SharedItemsImports = 13
 		TagLib.Shared\TagLib.Shared.projitems*{b809ed4c-623a-46a2-8d33-1d742fa0ab8a}*SharedItemsImports = 4
+		TagLib.Shared\TagLib.Shared.projitems*{fee974a7-9f5d-4c38-a970-27d49bca8a75}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
