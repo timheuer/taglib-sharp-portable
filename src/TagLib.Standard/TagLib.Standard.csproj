@@ -26,12 +26,23 @@
     <AssemblyName>TagLib.Portable</AssemblyName>
     <RootNamespace>TagLib</RootNamespace>
     <FileVersion>2.2.0.0</FileVersion>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <Import Project="..\TagLib.Shared\TagLib.Shared.projitems" Label="Shared" />
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="taglib.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
 
 </Project>
