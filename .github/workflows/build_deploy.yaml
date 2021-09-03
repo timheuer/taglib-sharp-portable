@@ -50,8 +50,7 @@ jobs:
       working-directory: src/
 
     - name: Pack
-      run: dotnet pack --configuration Release -o finalpackage --no-build
-      working-directory: /
+      run: dotnet pack --configuration Release -o /finalpackage --no-build
 
     - name: Publish artifact
       uses: actions/upload-artifact@master
