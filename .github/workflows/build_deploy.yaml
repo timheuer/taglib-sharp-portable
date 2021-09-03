@@ -51,6 +51,7 @@ jobs:
 
     - name: Pack
       run: dotnet pack --configuration Release -o finalpackage --no-build
+      working-directory: /
 
     - name: Publish artifact
       uses: actions/upload-artifact@master
