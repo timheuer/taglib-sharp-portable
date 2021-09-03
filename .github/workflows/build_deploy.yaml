@@ -29,7 +29,7 @@ jobs:
       DOTNET_MULTILEVEL_LOOKUP: 0
     defaults:
       run:
-        working-directory: src\TagLib.Standard
+        working-directory: src/TagLib.Standard
 
     steps:
     - uses: actions/checkout@v2
@@ -47,7 +47,7 @@ jobs:
 
     - name: Test
       run: dotnet test
-      working-directory: src\
+      working-directory: src/
 
 # add pack
 # add deploy to nuget (environments)
