@@ -49,5 +49,22 @@ jobs:
       run: dotnet test
       working-directory: src/
 
-# add pack
+    - name: Pack
+      run: dotnet pack --configuration Release -o finalpackage --no-build
+
+    - name: Publish artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: nupkg
+        path: finalpackage
+
+    - name: Get version
+      id: set_proj_version
+      shell: pwsh
+      working-directory: src
+      run: |
+        [xml]$nuspec = Get-Content TagLib.Standard/TagLib.Standard.csproj
+        $version=$nuspec.project.propertygroup.versionprefix
+        Write-Output "::set-output name=PKG_VERSION::$version"
+
 # add deploy to nuget (environments)
