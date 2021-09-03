@@ -67,25 +67,25 @@ namespace TagLib.Tests.FileFormats
             }
         }
 
-        [TestMethod]
-        public void TestXmp()
-        {
-            XmpTag tag = _file.GetTag(TagTypes.XMP) as XmpTag;
-            Assert.IsFalse(tag == null);
+        //[TestMethod]
+        //public void TestXmp()
+        //{
+        //    XmpTag tag = _file.GetTag(TagTypes.XMP) as XmpTag;
+        //    Assert.IsFalse(tag == null);
 
-            TestBagNode(tag, XmpTag.DC_NS, "subject", new[] { "keyword1", "keyword2", "keyword3" });
-            TestAltNode(tag, XmpTag.DC_NS, "description", new[] { "Sample Image" });
-        }
+        //    TestBagNode(tag, XmpTag.DC_NS, "subject", new[] { "keyword1", "keyword2", "keyword3" });
+        //    TestAltNode(tag, XmpTag.DC_NS, "description", new[] { "Sample Image" });
+        //}
 
-        [TestMethod]
-        public void TestConstructor1()
-        {
-            var file = new Jpeg.File(new LocalFileAbstraction(SAMPLE_FILE), ReadStyle.None);
-            Assert.IsNotNull(file.ImageTag, "ImageTag");
-            Assert.AreEqual(CONTAINED_TYPES, file.TagTypes);
+        //[TestMethod]
+        //public void TestConstructor1()
+        //{
+        //    var file = new Jpeg.File(new LocalFileAbstraction(SAMPLE_FILE), ReadStyle.None);
+        //    Assert.IsNotNull(file.ImageTag, "ImageTag");
+        //    Assert.AreEqual(CONTAINED_TYPES, file.TagTypes);
 
-            Assert.IsNotNull(file.Properties, "properties");
-        }
+        //    Assert.IsNotNull(file.Properties, "properties");
+        //}
 
         [TestMethod]
         public void TestConstructor2()

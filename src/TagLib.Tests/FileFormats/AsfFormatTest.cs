@@ -36,11 +36,11 @@ namespace TagLib.Tests.FileFormats
             Assert.AreEqual(1, _file.Tag.Pictures.Count(), "Embedded Album Art Found");
         }
 
-        [TestMethod]
-        public void WriteStandardTags()
-        {
-            StandardTests.WriteStandardTags (SAMPLE_FILE, TMP_FILE);
-        }
+        //[TestMethod]
+        //public void WriteStandardTags()
+        //{
+        //    StandardTests.WriteStandardTags (SAMPLE_FILE, TMP_FILE);
+        //}
 
         [TestMethod]
         public void TestCorruptionResistance()
