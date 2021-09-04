@@ -85,6 +85,18 @@ jobs:
         with:
           dotnet-version: 5.0.x
           include-prerelease: true
+
+      - name: Get certificate
+        id: cert_file
+        uses: timheuer/base64-to-file@master
+        with:
+          fileName: 'certfile.pfx'
+          encodedString: ${{ secrets.SIGNING_CERT }}
+      
+      # Sign the package
+      - name: Sign NuGet Package
+        #run: nuget sign **/*.nupkg -CertificatePath ${{ steps.cert_file.outputs.filePath }} -CertificatePassword ${{ secrets.CERT_PWD }}  -Timestamper http://timestamp.digicert.com -NonInteractive
+        run: dotnet nuget sign **/*.nupkg --certificate-path ${{ steps.cert_file.outputs.filePath }} --certificate-password ${{ secrets.CERT_PASSWORD }} --timestamper http://timestamp.digicert.com
       
       - name: Push to NuGet
         run: dotnet nuget push **/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
@@ -96,3 +108,9 @@ jobs:
       - name: Push to GitHub Packages
         #run: nuget push **/*.nupkg -Source "GPR" -SkipDuplicate
         run: dotnet nuget push **/*.nupkg -s "GPR" --skip-duplicate
+
+      - name: Publish signed artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: signednupkg
+          path: .
