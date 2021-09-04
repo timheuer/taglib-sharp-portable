@@ -3,6 +3,14 @@ TagLib#.Portable
 
 [![Build](https://github.com/timheuer/taglib-sharp-portable/actions/workflows/build_deploy.yaml/badge.svg?branch=main)](https://github.com/timheuer/taglib-sharp-portable/actions/workflows/build_deploy.yaml)
 
+**IMPORTANT - PLEASE READ**
+==============
+The mono/taglib-sharp project has since updated to .NET Standard and is more maintained than this one. The history of this was originally bringing a *portable* version across Silverlight, Framework, and other targets where Mono wasn't doing that at the time. It appears that project is being maintained now and you should strongly evaluate whether that one is better for you...it likely is 😉
+
+
+
+Project Information
+=
 This is a fork of the popular TagLib# project.  
 
 > TagLib is a library for reading and editing the meta-data of several popular audio formats. Currently it supports both ID3v1 and ID3v2 for MP3 files, Ogg Vorbis comments and ID3 tags and Vorbis comments in FLAC, MPC, Speex, WavPack TrueAudio, WAV, AIFF, MP4 and ASF files.
