@@ -73,7 +73,7 @@ jobs:
       name: production
       url: https://www.nuget.org/packages/TagLib.Portable/
     name: Sign and publish
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Download Package artifact
         uses: actions/download-artifact@v2

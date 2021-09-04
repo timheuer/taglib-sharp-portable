@@ -1,7 +1,7 @@
 TagLib#.Portable
 =====================
 
-![Build status](https://timheuer.visualstudio.com/_apis/public/build/definitions/29df2f24-eeea-4d31-a1bd-b10a1dad33f9/3/badge)
+[![Build](https://github.com/timheuer/taglib-sharp-portable/actions/workflows/build_deploy.yaml/badge.svg?branch=main)](https://github.com/timheuer/taglib-sharp-portable/actions/workflows/build_deploy.yaml)
 
 This is a fork of the popular TagLib# project.  
 
