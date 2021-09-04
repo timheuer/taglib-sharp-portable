@@ -67,4 +67,32 @@ jobs:
         $version=$nuspec.project.propertygroup.versionprefix
         Write-Output "::set-output name=PKG_VERSION::$version"
 
-# add deploy to nuget (environments)
+  deploy:
+    needs: build
+    environment:
+      name: production
+      url: https://www.nuget.org/packages/TagLib.Portable/
+    name: Sign and publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Package artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: nupkg
+
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v1.8.0
+        with:
+          dotnet-version: 5.0.x
+          include-prerelease: true
+      
+      - name: Push to NuGet
+        run: dotnet nuget push **/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Add GPR Source
+        #run: nuget sources Add -Name "GPR" -Source ${{ secrets.GPR_URI }} -UserName ${{ secrets.GPR_USERNAME }} -Password ${{ secrets.GITHUB_TOKEN }}
+        run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name GPR ${{ secrets.GPR_URI }}
+
+      - name: Push to GitHub Packages
+        #run: nuget push **/*.nupkg -Source "GPR" -SkipDuplicate
+        run: dotnet nuget push **/*.nupkg -s "GPR" --skip-duplicate
